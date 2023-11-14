@@ -23,9 +23,6 @@
 
 #include "pthread.h"
 
-#define likely(cond) __builtin_expect((cond) != 0, 1)
-#define unlikely(cond) __builtin_expect((cond) != 0, 0)
-
 /* We use the pthread_spinlock_t itself as a lock:
    -1 is free, 0 is locked.
    (This is dictated by PTHREAD_SPINLOCK_INITIALIZER, which we can't change
