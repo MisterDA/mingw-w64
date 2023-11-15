@@ -429,6 +429,10 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
 {
   _pthread_v *t = NULL;
   pthread_spinlock_t new_spin_keys = PTHREAD_SPINLOCK_INITIALIZER;
+  UNREFERENCED_PARAMETER(hDllHandle);
+#if !defined(USE_VEH_FOR_MSC_SETTHREADNAME)
+  UNREFERENCED_PARAMETER(lpreserved);
+#endif
 
   if (dwReason == DLL_PROCESS_DETACH)
     {
@@ -672,6 +676,7 @@ _pthread_once_raw (pthread_once_t *o, void (*func)(void))
 void *
 pthread_timechange_handler_np(void *dummy)
 {
+  UNREFERENCED_PARAMETER(dummy);
   return NULL;
 }
 
