@@ -22,7 +22,7 @@ AM_PROG_AR
 AS_CASE([$CC],
   [*cl|*cl.exe|*clang-cl|*clang-cl.exe],
     [RC="$am_aux_dir/windres-rc rc.exe"
-     CPPFLAGS="${CPPFLAGS} -nologo"])
+     CPPFLAGS="${CPPFLAGS} -nologo -D_CRT_NONSTDC_NO_WARNINGS"])
 AC_SUBST([RCFLAGS])
 
 # Libtool 2.4 should check them correctly
