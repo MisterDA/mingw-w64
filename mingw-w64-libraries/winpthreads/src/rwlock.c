@@ -47,6 +47,7 @@ static WINPTHREADS_ATTRIBUTE((noinline)) int rwl_unref(volatile pthread_rwlock_t
 static WINPTHREADS_ATTRIBUTE((noinline)) int rwl_ref(pthread_rwlock_t *rwl, int f )
 {
     int r = 0;
+    UNREFERENCED_PARAMETER(f);
     if (STATIC_RWL_INITIALIZER(*rwl)) {
         r = rwlock_static_init(rwl);
         if (r != 0 && r != EBUSY)
@@ -173,6 +174,7 @@ int pthread_rwlock_init (pthread_rwlock_t *rwlock_, const pthread_rwlockattr_t *
 {
     rwlock_t *rwlock;
     int r;
+    UNREFERENCED_PARAMETER(attr);
 
     if(!rwlock_)
       return EINVAL;

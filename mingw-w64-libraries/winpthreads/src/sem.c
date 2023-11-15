@@ -312,6 +312,10 @@ sem_post_multiple (sem_t *sem, int count)
 sem_t *
 sem_open (const char *name, int oflag, mode_t mode, unsigned int value)
 {
+  UNREFERENCED_PARAMETER(name);
+  UNREFERENCED_PARAMETER(oflag);
+  UNREFERENCED_PARAMETER(mode);
+  UNREFERENCED_PARAMETER(value);
   sem_result (ENOSYS);
   return NULL;
 }
@@ -319,12 +323,14 @@ sem_open (const char *name, int oflag, mode_t mode, unsigned int value)
 int
 sem_close (sem_t *sem)
 {
+  UNREFERENCED_PARAMETER(sem);
   return sem_result (ENOSYS);
 }
 
 int
 sem_unlink (const char *name)
 {
+  UNREFERENCED_PARAMETER(name);
   return sem_result (ENOSYS);
 }
 

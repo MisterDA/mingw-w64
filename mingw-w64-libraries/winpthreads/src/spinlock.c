@@ -35,6 +35,7 @@ int
 pthread_spin_init (pthread_spinlock_t *lock, int pshared)
 {
   spinlock_word_t *lk = (spinlock_word_t *)lock;
+  UNREFERENCED_PARAMETER(pshared);
   *lk = -1;
   return 0;
 }
@@ -43,6 +44,7 @@ pthread_spin_init (pthread_spinlock_t *lock, int pshared)
 int
 pthread_spin_destroy (pthread_spinlock_t *lock)
 {
+  UNREFERENCED_PARAMETER(lock);
   return 0;
 }
 
