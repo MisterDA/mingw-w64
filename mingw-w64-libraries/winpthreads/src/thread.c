@@ -1843,7 +1843,7 @@ pthread_setname_np (pthread_t thread, const char *name)
       || tv->h == INVALID_HANDLE_VALUE)
     return ESRCH;
 
-  stored_name = strdup (name);
+  stored_name = _strdup (name);
   if (stored_name == NULL)
     return ENOMEM;
 
