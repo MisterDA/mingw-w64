@@ -34,7 +34,7 @@ int nanosleep(const struct timespec *request, struct timespec *remain)
     union {
         unsigned __int64 ns100;
         FILETIME ft;
-    }  _start, _end;
+    }  _start = { 0 }, _end;
 
     if (request->tv_sec < 0 || request->tv_nsec < 0 || request->tv_nsec >= POW10_9) {
         errno = EINVAL;
