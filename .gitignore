@@ -12,6 +12,8 @@
 *.lo
 *.la
 *.gch
+*.obj
+*.res
 
 # Specialized files
 autom4te.cache
