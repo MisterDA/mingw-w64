@@ -508,11 +508,25 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
 
 /* TLS-runtime section variable.  */
 #ifdef _MSC_VER
-#pragma section(".CRT$XLF", shared)
+# ifdef _WIN64
+/* .CRT section is merged with .rdata on x64 so it must be constant data. */
+#  pragma const_seg(push, old_seg)
+/* Use a typical possible name in the .CRT$XL? list of segments. */
+#  pragma const_seg(".CRT$XLF")
+const
+# else
+#  pragma data_seg(push, old_seg)
+/* Use a typical possible name in the .CRT$XL? list of segments. */
+#  pragma data_seg(".CRT$XLF")
+# endif
 #endif
 PIMAGE_TLS_CALLBACK WINPTHREADS_ATTRIBUTE((WINPTHREADS_SECTION(".CRT$XLF"))) __xl_f  = __dyn_tls_pthread;
 #ifdef _MSC_VER
-#pragma data_seg()
+# ifdef _WIN64
+#  pragma const_seg(pop, old_seg)
+# else
+#  pragma data_seg(pop, old_seg)
+# endif
 #endif
 
 #ifdef WINPTHREAD_DBG
