@@ -1078,7 +1078,7 @@ pthread_gethandle (pthread_t t)
 }
 
 /* Internal helper for getting pointer of clean of current thread.  */
-struct _pthread_cleanup **
+const struct _pthread_cleanup **
 pthread_getclean (void)
 {
   struct _pthread_v *t = __pthread_self_lite ();
@@ -1152,7 +1152,7 @@ pthread_exit (void *res)
 void
 _pthread_invoke_cancel (void)
 {
-  _pthread_cleanup *pcup;
+  const _pthread_cleanup *pcup;
   struct _pthread_v *se = __pthread_self_lite ();
   se->in_cancel = 1;
   _pthread_setnobreak (1);

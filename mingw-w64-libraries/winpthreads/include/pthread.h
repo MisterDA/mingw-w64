@@ -205,7 +205,7 @@ struct _pthread_cleanup
 {
     void (*func)(void *);
     void *arg;
-    _pthread_cleanup *next;
+    const _pthread_cleanup *next;
 };
 
 #define pthread_cleanup_push(F, A)                                      \
@@ -213,7 +213,7 @@ struct _pthread_cleanup
         const _pthread_cleanup _pthread_cup =                           \
             { (F), (A), *pthread_getclean() };                          \
         MemoryBarrier();                                                \
-        *pthread_getclean() = (_pthread_cleanup *) &_pthread_cup;       \
+        *pthread_getclean() = &_pthread_cup;                            \
         MemoryBarrier();                                                \
         do {                                                            \
             do {} while (0)
@@ -222,7 +222,7 @@ struct _pthread_cleanup
 #define pthread_cleanup_pop(E)                                          \
         } while (0);                                                    \
         *pthread_getclean() = _pthread_cup.next;                        \
-        if ((E)) _pthread_cup.func((pthread_once_t *)_pthread_cup.arg); \
+        if ((E)) _pthread_cup.func(_pthread_cup.arg);                   \
     } while (0)
 
 #ifndef SCHED_OTHER
@@ -393,7 +393,7 @@ WINPTHREAD_API int pthread_barrierattr_setpshared(void **attr, int s);
 WINPTHREAD_API int pthread_barrierattr_getpshared(void **attr, int *s);
 
 /* Private extensions for analysis and internal use.  */
-WINPTHREAD_API struct _pthread_cleanup ** pthread_getclean (void);
+WINPTHREAD_API const struct _pthread_cleanup ** pthread_getclean (void);
 WINPTHREAD_API void * pthread_gethandle (pthread_t t);
 WINPTHREAD_API void * pthread_getevent (void);
 
