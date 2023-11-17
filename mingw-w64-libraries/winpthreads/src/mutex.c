@@ -191,12 +191,12 @@ int pthread_mutex_timedlock(pthread_mutex_t *m, const struct timespec *ts)
     unsigned long long end = _pthread_time_in_ms_from_timespec(ts);
     unsigned long long now = _pthread_time_in_ms();
     patience = end > now ? end - now : 0;
-    if (patience > 0xffffffff)
+    if (patience > INFINITE)
       patience = INFINITE;
   } else {
     patience = INFINITE;
   }
-  return pthread_mutex_lock_intern(m, patience);
+  return pthread_mutex_lock_intern(m, (DWORD)patience);
 }
 
 int pthread_mutex_unlock(pthread_mutex_t *m)
