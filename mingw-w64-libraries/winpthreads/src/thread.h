@@ -37,7 +37,7 @@ struct _pthread_v
     unsigned int valid;
     void *ret_arg;
     void *(* func)(void *);
-    _pthread_cleanup *clean;
+    const _pthread_cleanup *clean;
     int nobreak;
     HANDLE h;
     HANDLE evStart;
