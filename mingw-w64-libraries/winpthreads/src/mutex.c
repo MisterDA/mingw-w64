@@ -99,7 +99,11 @@ mutex_impl(pthread_mutex_t *m)
   } else {
     /* mi cannot be null here; avoid a test in the fast path. */
     if (mi == NULL)
+#if defined(_MSC_VER)
+      __assume(0);
+#else
       __builtin_unreachable();
+#endif
     return mi;
   }
 }
