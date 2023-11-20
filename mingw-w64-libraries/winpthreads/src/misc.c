@@ -24,15 +24,6 @@
 #include "pthread.h"
 #include "misc.h"
 
-static ULONGLONG (*GetTickCount64FuncPtr) (VOID);
-
-static void __attribute__((constructor)) ctor (void)
-{
-  HMODULE mod = GetModuleHandle("kernel32.dll");
-  if (mod)
-    GetTickCount64FuncPtr = (__typeof__(GetTickCount64FuncPtr)) GetProcAddress(mod, "GetTickCount64");
-}
-
 unsigned long long _pthread_time_in_ms(void)
 {
     FILETIME ft;
@@ -61,6 +52,25 @@ unsigned long long _pthread_rel_time_in_ms(const struct timespec *ts)
     return t1 - t2;
 }
 
+#if defined(_WIN32_WINNT) && defined(_WIN32_WINNT_WIN6) \
+    && _WIN32_WINNT >= _WIN32_WINNT_WIN6
+static unsigned long long
+_pthread_get_tick_count (long long *frequency)
+{
+  UNREFERENCED_PARAMETER(frequency);
+  return GetTickCount64 ();
+}
+
+#else
+static ULONGLONG (*GetTickCount64FuncPtr) (VOID);
+
+static void __attribute__((constructor)) ctor (void)
+{
+  HMODULE mod = GetModuleHandle("kernel32.dll");
+  if (mod)
+    GetTickCount64FuncPtr = (__typeof__(GetTickCount64FuncPtr)) GetProcAddress(mod, "GetTickCount64");
+}
+
 static unsigned long long
 _pthread_get_tick_count (long long *frequency)
 {
@@ -83,6 +93,7 @@ _pthread_get_tick_count (long long *frequency)
   /* Fallback */
   return GetTickCount ();
 }
+#endif
 
 /* A wrapper around WaitForSingleObject() that ensures that
  * the wait function does not time out before the time
