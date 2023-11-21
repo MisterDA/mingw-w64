@@ -92,10 +92,12 @@ int clock_getres(clockid_t clock_id, struct timespec *res)
             if (QueryPerformanceFrequency(&pf) == 0)
                 return lc_set_errno(EINVAL);
 
-            res->tv_sec = 0;
-            res->tv_nsec = (int) ((POW10_9 + (pf.QuadPart >> 1)) / pf.QuadPart);
-            if (res->tv_nsec < 1)
-                res->tv_nsec = 1;
+            if (res) {
+                res->tv_sec = 0;
+                res->tv_nsec = (int) ((POW10_9 + (pf.QuadPart >> 1)) / pf.QuadPart);
+                if (res->tv_nsec < 1)
+                    res->tv_nsec = 1;
+            }
 
             return 0;
         }
@@ -107,9 +109,13 @@ int clock_getres(clockid_t clock_id, struct timespec *res)
             DWORD   timeAdjustment, timeIncrement;
             BOOL    isTimeAdjustmentDisabled;
 
-            (void) GetSystemTimeAdjustment(&timeAdjustment, &timeIncrement, &isTimeAdjustmentDisabled);
-            res->tv_sec = 0;
-            res->tv_nsec = timeIncrement * 100;
+            if (GetSystemTimeAdjustment(&timeAdjustment, &timeIncrement, &isTimeAdjustmentDisabled) == 0)
+                return lc_set_errno(EINVAL);
+
+            if (res && !isTimeAdjustmentDisabled) {
+                res->tv_sec = 0;
+                res->tv_nsec = (long)timeIncrement * 100;
+            }
 
             return 0;
         }
