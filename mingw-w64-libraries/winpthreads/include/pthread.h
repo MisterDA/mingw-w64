@@ -341,7 +341,7 @@ int WINPTHREAD_API pthread_mutex_init(pthread_mutex_t *m, const pthread_mutexatt
 int WINPTHREAD_API pthread_mutex_destroy(pthread_mutex_t *m);
 
 int WINPTHREAD_API pthread_barrier_destroy(pthread_barrier_t *b);
-int WINPTHREAD_API pthread_barrier_init(pthread_barrier_t *b, const void *attr, unsigned int count);
+int WINPTHREAD_API pthread_barrier_init(pthread_barrier_t *b, const pthread_barrierattr_t *attr, unsigned int count);
 int WINPTHREAD_API pthread_barrier_wait(pthread_barrier_t *b);
 
 int WINPTHREAD_API pthread_spin_init(pthread_spinlock_t *l, int pshared);
@@ -395,10 +395,10 @@ int WINPTHREAD_API pthread_condattr_setclock(pthread_condattr_t *attr,
        clockid_t clock_id);
 int WINPTHREAD_API __pthread_clock_nanosleep(clockid_t clock_id, int flags, const struct timespec *rqtp, struct timespec *rmtp);
 
-int WINPTHREAD_API pthread_barrierattr_init(void **attr);
-int WINPTHREAD_API pthread_barrierattr_destroy(void **attr);
-int WINPTHREAD_API pthread_barrierattr_setpshared(void **attr, int s);
-int WINPTHREAD_API pthread_barrierattr_getpshared(void **attr, int *s);
+int WINPTHREAD_API pthread_barrierattr_init(pthread_barrierattr_t *attr);
+int WINPTHREAD_API pthread_barrierattr_destroy(pthread_barrierattr_t *attr);
+int WINPTHREAD_API pthread_barrierattr_setpshared(pthread_barrierattr_t *attr, int s);
+int WINPTHREAD_API pthread_barrierattr_getpshared(const pthread_barrierattr_t *attr, int *s);
 
 /* Private extensions for analysis and internal use.  */
 const _pthread_cleanup **  WINPTHREAD_API pthread_getclean (void);

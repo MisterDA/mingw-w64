@@ -131,7 +131,7 @@ int pthread_barrier_destroy(pthread_barrier_t *b_)
 }
 
 int
-pthread_barrier_init (pthread_barrier_t *b_, const void *attr,
+pthread_barrier_init (pthread_barrier_t *b_, const pthread_barrierattr_t *attr,
 		      unsigned int count)
 {
     barrier_t *b;
@@ -205,7 +205,7 @@ int pthread_barrier_wait(pthread_barrier_t *b_)
   return barrier_unref(b_,r);
 }
 
-int pthread_barrierattr_init(void **attr)
+int pthread_barrierattr_init(pthread_barrierattr_t *attr)
 {
   int *p;
 
@@ -218,7 +218,7 @@ int pthread_barrierattr_init(void **attr)
   return 0;
 }
 
-int pthread_barrierattr_destroy(void **attr)
+int pthread_barrierattr_destroy(pthread_barrierattr_t *attr)
 {
   void *p;
   if (!attr || (p = *attr) == NULL)
@@ -228,7 +228,7 @@ int pthread_barrierattr_destroy(void **attr)
   return 0;
 }
 
-int pthread_barrierattr_setpshared(void **attr, int s)
+int pthread_barrierattr_setpshared(pthread_barrierattr_t *attr, int s)
 {
   if (!attr || *attr == NULL
       || (s != PTHREAD_PROCESS_SHARED && s != PTHREAD_PROCESS_PRIVATE))
@@ -237,7 +237,7 @@ int pthread_barrierattr_setpshared(void **attr, int s)
   return 0;
 }
 
-int pthread_barrierattr_getpshared(void **attr, int *s)
+int pthread_barrierattr_getpshared(const pthread_barrierattr_t *attr, int *s)
 {
   if (!attr || !s || *attr == NULL)
     return EINVAL;
