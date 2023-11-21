@@ -32,9 +32,22 @@ static WINPTHREADS_INLINE int lc_set_errno(int result)
 }
 
 typedef void (WINAPI * GetSystemTimeAsFileTime_t)(LPFILETIME);
-static GetSystemTimeAsFileTime_t GetSystemTimeAsFileTime_p /* = 0 */;
 
-static GetSystemTimeAsFileTime_t try_load_GetSystemPreciseTimeAsFileTime(void)
+#if defined(_WIN32_WINNT) && defined(_WIN32_WINNT_WIN8) \
+    && _WIN32_WINNT >= _WIN32_WINNT_WIN8
+
+static WINPTHREADS_INLINE GetSystemTimeAsFileTime_t
+load_GetSystemTimeBestAsFileTime(void)
+{
+    return &GetSystemTimePreciseAsFileTime;
+}
+
+#else
+
+static GetSystemTimeAsFileTime_t GetSystemTimeAsFileTime_p;
+
+static WINPTHREADS_INLINE GetSystemTimeAsFileTime_t
+try_load_GetSystemPreciseTimeAsFileTime(void)
 {
     /* Use GetSystemTimePreciseAsFileTime() if available (Windows 8 or later) */
     HMODULE mod = GetModuleHandle("kernel32.dll");
@@ -48,7 +61,8 @@ static GetSystemTimeAsFileTime_t try_load_GetSystemPreciseTimeAsFileTime(void)
     return get_time;
 }
 
-static WINPTHREADS_INLINE GetSystemTimeAsFileTime_t load_GetSystemTimeBestAsFileTime(void)
+static WINPTHREADS_INLINE GetSystemTimeAsFileTime_t
+load_GetSystemTimeBestAsFileTime(void)
 {
     GetSystemTimeAsFileTime_t get_time =
         __atomic_load_n(&GetSystemTimeAsFileTime_p, __ATOMIC_RELAXED);
@@ -56,6 +70,8 @@ static WINPTHREADS_INLINE GetSystemTimeAsFileTime_t load_GetSystemTimeBestAsFile
         get_time = try_load_GetSystemPreciseTimeAsFileTime();
     return get_time;
 }
+
+#endif
 
 /**
  * Get the resolution of the specified clock clock_id and
@@ -203,7 +219,7 @@ int clock_gettime(clockid_t clock_id, struct timespec *tp)
         return 0;
         }
 
-    case CLOCK_THREAD_CPUTIME_ID: 
+    case CLOCK_THREAD_CPUTIME_ID:
         {
             if(0 == GetThreadTimes(GetCurrentThread(), &ct.ft, &et.ft, &kt.ft, &ut.ft))
                 return lc_set_errno(EINVAL);
