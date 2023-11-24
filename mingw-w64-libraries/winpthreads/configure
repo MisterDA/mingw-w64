@@ -664,7 +664,6 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-RCFLAGS
 COPY_STATIC_FALSE
 COPY_STATIC_TRUE
 COPY_SHARED_FALSE
@@ -693,6 +692,7 @@ LIBTOOL
 OBJDUMP
 DLLTOOL
 AS
+RCFLAGS
 ac_ct_AR
 AR
 am__fastdepCCAS_FALSE
@@ -4958,6 +4958,15 @@ lib)
 unknown)
   as_fn_error $? "could not determine $AR interface" "$LINENO" 5
   ;;
+esac
+
+
+case $CC in #(
+  *cl|*cl.exe|*clang-cl|*clang-cl.exe) :
+    RC="$am_aux_dir/windres-rc rc.exe"
+     CPPFLAGS="${CPPFLAGS} -nologo" ;; #(
+  *) :
+     ;;
 esac
 
 
@@ -13729,8 +13738,6 @@ fi
 #AC_FUNC_REALLOC
 # mingw-w64 should already have them
 #AC_CHECK_FUNCS([ftime gettimeofday memset])
-
-
 
 ac_config_files="$ac_config_files Makefile tests/Makefile"
 
