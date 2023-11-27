@@ -908,32 +908,37 @@ pthread_setspecific (pthread_key_t key, const void *value)
 {
   DWORD lasterr = GetLastError ();
   _pthread_v *t = __pthread_self_lite ();
-  
+  int rc = 0;
   pthread_spin_lock (&t->spin_keys);
 
   if (key >= t->keymax)
     {
-      unsigned int keymax = (key + 1);
+      unsigned int keymax = key + 1;
       void **kv;
       unsigned char *kv_set;
 
-      kv = (void **) realloc (t->keyval, keymax * sizeof (void *));
-
+      kv = malloc (keymax * sizeof (void *));
       if (!kv)
         {
-	  pthread_spin_unlock (&t->spin_keys);
-	  return ENOMEM;
-	}
-      kv_set = (unsigned char *) realloc (t->keyval_set, keymax);
+          rc = ENOMEM;
+          goto cleanup;
+        }
+      kv_set = malloc (keymax);
       if (!kv_set)
         {
-	  pthread_spin_unlock (&t->spin_keys);
-	  return ENOMEM;
-	}
+          free (kv);
+          rc = ENOMEM;
+          goto cleanup;
+        }
 
+      memcpy (kv, t->keyval, t->keymax * sizeof (void *));
+      memcpy (kv_set, t->keyval_set, t->keymax);
       /* Clear new region */
-      memset (&kv[t->keymax], 0, (keymax - t->keymax)*sizeof(void *));
-      memset (&kv_set[t->keymax], 0, (keymax - t->keymax));
+      memset (kv + t->keymax, 0, (keymax - t->keymax) * sizeof (void *));
+      memset (kv_set + t->keymax, 0, keymax - t->keymax);
+
+      free (t->keyval);
+      free (t->keyval_set);
 
       t->keyval = kv;
       t->keyval_set = kv_set;
@@ -942,10 +947,11 @@ pthread_setspecific (pthread_key_t key, const void *value)
 
   memcpy(t->keyval + key, &value, sizeof(value));
   t->keyval_set[key] = 1;
+
+ cleanup:
   pthread_spin_unlock (&t->spin_keys);
   SetLastError (lasterr);
-
-  return 0;
+  return rc;
 }
 
 int
