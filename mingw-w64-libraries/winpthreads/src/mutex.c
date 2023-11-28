@@ -278,7 +278,7 @@ int pthread_mutex_destroy (pthread_mutex_t *m)
     if (mi->event != NULL)
       CloseHandle(mi->event);
     free(mi);
-    /* Sabotage attempts to re-use the mutex before initialising it again. */
+    /* Sabotage attempts to reuse the mutex before initialising it again. */
     *m = (pthread_mutex_t)NULL;
   }
 

@@ -202,7 +202,7 @@ int clock_gettime(clockid_t clock_id, struct timespec *tp)
  * @param  flags 0 for relative sleep interval, others for absolute waking up.
  * @param  request The desired sleep interval or absolute waking up time.
  * @param  remain The remain amount of time to sleep.
- *         The current implemention just ignore it.
+ *         The current implementation just ignore it.
  * @return If the function succeeds, the return value is 0.
  *         If the function fails, the return value is -1,
  *         with errno set to indicate the error.
