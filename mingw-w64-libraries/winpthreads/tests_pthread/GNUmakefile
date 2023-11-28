@@ -285,7 +285,7 @@ GC-stress:
 	@ $(ECHO) Copying $(BUILD_DIR)/$(DLL)
 	@ $(CP) $(BUILD_DIR)/$(DLL) .
 	$(ECHO) Stress tests can take a long time since they are trying to
-	$(ECHO) expose weaknesses that may be intermittant or statistically rare.
+	$(ECHO) expose weaknesses that may be intermittent or statistically rare.
 	$(ECHO) A pass does not prove correctness, but may give greater confidence.
 	$(MAKE) TEST=GC CC=$(CROSS)-gcc XXCFLAGS="-D__CLEANUP_C" XXLIBS="" all-stress
 

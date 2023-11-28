@@ -33,13 +33,13 @@
  *
  * --------------------------------------------------------------------------
  *
- * Test Synopsis: Test true asynchronous cancelation with Alert driver.
+ * Test Synopsis: Test true asynchronous cancellation with Alert driver.
  *
  * Test Method (Validation or Falsification):
  * - 
  *
  * Requirements Tested:
- * - Cancel threads, including those blocked on system recources
+ * - Cancel threads, including those blocked on system resources
  *   such as network I/O.
  *
  * Features Tested:

@@ -54,7 +54,7 @@ mythread(void * arg)
   assert(pthread_mutex_lock(&cvthing.lock) == 0);
 
   /*
-   * pthread_cond_timedwait is a cancelation point and we're
+   * pthread_cond_timedwait is a cancellation point and we're
    * going to cancel some threads deliberately.
    */
 #ifdef _MSC_VER

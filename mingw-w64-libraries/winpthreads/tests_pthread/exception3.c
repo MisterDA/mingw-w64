@@ -115,7 +115,7 @@ terminateFunction ()
    * continues. Note: need to check correct POSIX behaviour.
    * My guess is: this is because of the
    * eh incompatibility between g++ and MSVC++. That is,
-   * an exception thrown in g++ code doesn't propogate
+   * an exception thrown in g++ code doesn't propagate
    * through or to MSVC++ code, and vice versa.
    * Applications should probably not depend on this.
    */

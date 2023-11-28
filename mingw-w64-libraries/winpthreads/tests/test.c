@@ -34,7 +34,7 @@ int checkAbort = 0;
 
 typedef struct {
     int id;
-} parm;
+} param;
 
 struct timespec *starttimer(struct timespec *ts, DWORD ms)
 {
@@ -51,7 +51,7 @@ struct timespec *starttimer(struct timespec *ts, DWORD ms)
 
 void *hello(void *arg)
 {
-    parm *p=(parm *)arg;
+    param *p=(param *)arg;
     printf("Hello from node %d\n", p->id);
     pthread_exit(NULL);
     printf("Not reached from node %d\n", p->id);
@@ -68,7 +68,7 @@ pthread_spinlock_t      spinlock;
 int                     SLsharedData=0;
 int                     SLsharedData2=0;
 
-void *spinlock_threadfunc(void *parm)
+void *spinlock_threadfunc(void *param)
 {
    int   rc, d;
    int tid = pthread_self();
@@ -148,7 +148,7 @@ int                     sharedData2=0;
 int						mwait=30000;
 int						init =0, destr=0;
 
-void *mutex_threadfunc(void *parm)
+void *mutex_threadfunc(void *param)
 {
    int   rc;
    int d;
@@ -189,7 +189,7 @@ rc = pthread_mutex_lock(&mutex);
 
    return NULL;
 }
- 
+
 void *mutex_threadfunc_raced(void *parm)
 {
    int   rc, rc1, i,j=0,x=0;
@@ -222,7 +222,7 @@ void *mutex_threadfunc_raced(void *parm)
 
        mutex_print(&mutex,"B pthread_mutex_unlock 0");
         if(rc) {
-            mutex_print(&mutex,"cant unlock 0");
+            mutex_print(&mutex,"can't unlock 0");
         }
        checkResults("pthread_mutex_unlock()\n", rc);
        if (d) {
@@ -234,7 +234,7 @@ void *mutex_threadfunc_raced(void *parm)
        rc=0;//rc = pthread_mutex_destroy(&mutex);
        mutex_print(&mutex,"B pthread_mutex_destroy 0");
         if(rc) {
-            mutex_print(&mutex,"cant destroy 0");
+            mutex_print(&mutex,"can't destroy 0");
             //break;
         } else {
             destr ++;
@@ -248,14 +248,14 @@ void *mutex_threadfunc_raced(void *parm)
             mutex_print(&mutex,"B pthread_mutex_timedlock()");
             //checkResults("pthread_mutex_lock() destroy\n", rc1);
             if(rc1) {
-                mutex_print(&mutex,"cant lock");
+                mutex_print(&mutex,"can't lock");
                 break;
             }
             mutex_print(&mutex,"A pthread_mutex_unlock() 1");
             rc1 = pthread_mutex_unlock(&mutex);
             mutex_print(&mutex,"B pthread_mutex_unlock() 1");
             if(rc1) {
-                mutex_print(&mutex,"cant unlock");
+                mutex_print(&mutex,"can't unlock");
                 break;
             }
             //checkResults("pthread_mutex_unlock() destroy\n", rc1);
@@ -263,7 +263,7 @@ void *mutex_threadfunc_raced(void *parm)
             rc=0;//rc = pthread_mutex_destroy(&mutex);
             mutex_print(&mutex, "B pthread_mutex_destroy 1");
             if(rc) {
-                mutex_print(&mutex,"cant destroy");
+                mutex_print(&mutex,"can't destroy");
                 break;
             } else {
                 destr ++;
@@ -277,7 +277,7 @@ void *mutex_threadfunc_raced(void *parm)
         rc =0; //rc = pthread_mutex_init(&mutex,NULL);
         mutex_print(&mutex, "B pthread_mutex_init");
         if(rc) {
-            mutex_print(&mutex,"cant init");
+            mutex_print(&mutex,"can't init");
             break;
         } else {
             init ++;
@@ -295,7 +295,7 @@ void *mutex_threadfunc_raced(void *parm)
 }
  
 static volatile LONG _tid=0;
-void *mutex_threadfunc_timed(void *parm)
+void *mutex_threadfunc_timed(void *param)
 {
    int   rc;
    int d,e;
@@ -346,7 +346,7 @@ void *mutex_threadfunc_timed(void *parm)
 }
  
 /* PTHREAD_NORMAL_MUTEX_INITIALIZER deadlock handling thread 1 */
-void *mutex_threadfuncDL1(void *parm) 
+void *mutex_threadfuncDL1(void *param)  
 {
    int   rc;
    int d;
@@ -648,7 +648,7 @@ int                 workLeave = 0;
 pthread_cond_t      cond;
 pthread_mutex_t     mutex;
 
-void *condTimed_threadfunc(void *parm)
+void *condTimed_threadfunc(void *param)
 {
   int               tid;
   int               rc;
@@ -795,7 +795,7 @@ int                 workLeave = 0;
 pthread_cond_t      cond=PTHREAD_COND_INITIALIZER;
 pthread_mutex_t     mutex=PTHREAD_MUTEX_INITIALIZER;
 
-void *condTimed_threadfunc(void *parm)
+void *condTimed_threadfunc(void *param)
 {
   int               tid;
   int               rc;
@@ -1205,7 +1205,7 @@ void *barrier_Thread(void *arg)
             /* Wait for the rest again.  */
             printf ("Wait for the rest again %d\n",j);
             retval = pthread_barrier_wait (&barriers[j]);
-            /* the following printf can make bugs go away - timing dependend */
+            /* the following printf can make bugs go away - timing dependent */
             /* without this printf the test hangs here */
             /* try USE_MUTEX_CriticalSection + USE_COND_Semaphore */
             //printf ("Wait for the rest again continue %d\n",j);
@@ -1278,7 +1278,7 @@ int barrier_main(void)
 void thread(void)
 {
     int i;
-    parm *p;
+    param *p;
     pthread_t *threads;
     pthread_attr_t pthread_custom_attr;
     int n = N_THREAD;
@@ -1292,7 +1292,7 @@ void thread(void)
     threads = malloc(n*sizeof(*threads));
     pthread_attr_init(&pthread_custom_attr);
 
-    p = malloc(sizeof(parm)*n);
+    p = malloc(sizeof(param)*n);
     /* Start up thread */
 
     for (i=0; i<n; i++)

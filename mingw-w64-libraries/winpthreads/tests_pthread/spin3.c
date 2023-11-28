@@ -34,7 +34,7 @@
  * --------------------------------------------------------------------------
  *
  * Thread A locks spin - thread B tries to unlock.
- * This should result in a EPERM as adviced in the spec.
+ * This should result in a EPERM as advised in the spec.
  *
  */
 

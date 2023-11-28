@@ -738,7 +738,7 @@ pthread_num_processors_np(void)
   return r ? r : 1;
 }
 
-/* Compatiblity routine for pthread-win32.  Allows to set amount of used
+/* Compatibility routine for pthread-win32.  Allows to set amount of used
    CPUs for process.  */
 int
 pthread_set_num_processors_np(int n) 
