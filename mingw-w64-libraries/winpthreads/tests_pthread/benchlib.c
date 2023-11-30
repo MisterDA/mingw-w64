@@ -85,7 +85,7 @@ old_mutex_init(old_mutex_t *mutex, const old_mutexattr_t *attr)
       return EINVAL;
     }
 
-  mx = (old_mutex_t) calloc(1, sizeof(*mx));
+  mx = calloc(1, sizeof(*mx));
 
   if (mx == NULL)
     {

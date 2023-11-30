@@ -139,7 +139,7 @@ pthread_barrier_init (pthread_barrier_t *b_, const void *attr,
     if (!count || !b_)
       return EINVAL;
 
-    if ((b = (pthread_barrier_t)calloc(1,sizeof(*b))) == NULL)
+    if ((b = calloc(1,sizeof(*b))) == NULL)
        return ENOMEM;
     if (!attr || *attr == NULL)
       b->share = PTHREAD_PROCESS_PRIVATE;
@@ -209,7 +209,7 @@ int pthread_barrierattr_init(void **attr)
 {
   int *p;
 
-  if ((p = (int *) calloc (1, sizeof (int))) == NULL)
+  if ((p = calloc (1, sizeof (int))) == NULL)
     return ENOMEM;
 
   *p = PTHREAD_PROCESS_PRIVATE;
