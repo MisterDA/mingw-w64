@@ -13,9 +13,9 @@ void * func(void * arg)
 
   InterlockedIncrement(&done);
 
-  return (void *) 0; 
+  return (void *) 0;
 }
- 
+
 int
 main()
 {

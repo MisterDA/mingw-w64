@@ -1,4 +1,3 @@
-
 SUBDIRS = . tests
 
 AM_CFLAGS = -Wall -DWIN32_LEAN_AND_MEAN
@@ -29,7 +28,7 @@ fakelib_libgcc_s_a_SOURCES =
 fakelib_libgcc_eh_a_SOURCES =
 endif
 
-lib_LIBRARIES = 
+lib_LIBRARIES =
 
 if COPY_STATIC
 lib_LIBRARIES += libpthread.a
@@ -54,4 +53,3 @@ endif
 	$(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --tag=RC --mode=compile $(RC) $(RCFLAGS) -i $< -o $@
 
 DISTCHECK_CONFIGURE_FLAGS = --host=$(host_triplet)
-

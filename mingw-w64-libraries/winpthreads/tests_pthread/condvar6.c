@@ -129,10 +129,10 @@ main()
       assert(pthread_join(t[i], NULL) == 0);
     }
 
-  /* 
+  /*
    * Cleanup the CV.
    */
-  
+
   assert(pthread_mutex_destroy(&cvthing.lock) == 0);
 
   assert(cvthing.lock == NULL);
@@ -145,7 +145,7 @@ main()
    * Standard check that all threads started.
    */
   for (i = 1; i <= NUMTHREADS; i++)
-    { 
+    {
       failed = !threadbag[i].started;
 
       if (failed)

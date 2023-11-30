@@ -56,7 +56,7 @@ pthread_spin_lock (pthread_spinlock_t *lock)
     } while (*lk == 0);
   return 0;
 }
-  
+
 int
 pthread_spin_trylock (pthread_spinlock_t *lock)
 {

@@ -153,7 +153,7 @@ main()
        * Standard check that all threads started - and wait for them to finish.
        */
       for (i = first; i <= last; i++)
-	{ 
+	{
 	  failed = !threadbag[i].started;
 
           if (failed)
@@ -168,7 +168,7 @@ main()
 	}
     }
 
-  /* 
+  /*
    * Cleanup the CV.
    */
 

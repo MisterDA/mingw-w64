@@ -25,7 +25,7 @@
 #include <malloc.h>
 #include "pthread.h"
 #include "barrier.h"
-#include "ref.h" 
+#include "ref.h"
 #include "misc.h"
 
 static pthread_spinlock_t barrier_global = PTHREAD_SPINLOCK_INITIALIZER;
@@ -64,7 +64,7 @@ barrier_ref_destroy(volatile pthread_barrier_t *barrier, pthread_barrier_t *bDes
 
     *bDestroy = NULL;
     pthread_spin_lock(&barrier_global);
-    
+
     if (!barrier || !*barrier || ((barrier_t *)*barrier)->valid != LIFE_BARRIER) r = EINVAL;
     else {
         barrier_t *b_ = (barrier_t *)*barrier;
@@ -92,15 +92,15 @@ int pthread_barrier_destroy(pthread_barrier_t *b_)
     pthread_barrier_t bDestroy;
     barrier_t *b;
     int r;
-    
+
     while ((r = barrier_ref_destroy(b_,&bDestroy)) == EBUSY)
       Sleep(0);
-    
+
     if (r)
       return r;
 
     b = (barrier_t *)bDestroy;
-    
+
     pthread_mutex_lock(&b->m);
 
     if (sem_destroy(&b->sems[0]) != 0)

@@ -6,25 +6,25 @@
  *      Pthreads-win32 - POSIX Threads Library for Win32
  *      Copyright(C) 1998 John E. Bossom
  *      Copyright(C) 1999,2005 Pthreads-win32 contributors
- * 
+ *
  *      Contact Email: rpj@callisto.canberra.edu.au
- * 
+ *
  *      The current list of contributors is contained
  *      in the file CONTRIBUTORS included with the source
  *      code distribution. The list can also be seen at the
  *      following World Wide Web location:
  *      http://sources.redhat.com/pthreads-win32/contributors.html
- * 
+ *
  *      This library is free software; you can redistribute it and/or
  *      modify it under the terms of the GNU Lesser General Public
  *      License as published by the Free Software Foundation; either
  *      version 2 of the License, or (at your option) any later version.
- * 
+ *
  *      This library is distributed in the hope that it will be useful,
  *      but WITHOUT ANY WARRANTY; without even the implied warranty of
  *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *      Lesser General Public License for more details.
- * 
+ *
  *      You should have received a copy of the GNU Lesser General Public
  *      License along with this library in the file COPYING.LIB;
  *      if not, write to the Free Software Foundation, Inc.,
@@ -276,7 +276,7 @@ main (int argc, char *argv[])
 
   assert(NULL != calloc (nthreads, sizeof (*tcs))));
 
-  /* 
+  /*
    * Launch threads
    */
   for (i = 0; i < nthreads; ++i)
@@ -288,17 +288,17 @@ main (int argc, char *argv[])
       assert(pthread_mutex_init (&tcs[i].mutex_end, NULL) == 0);
       assert(pthread_mutex_init (&tcs[i].mutex_ended, NULL) == 0);
 
-      tcs[i].work = 0;  
+      tcs[i].work = 0;
 
       assert(pthread_mutex_lock (&tcs[i].mutex_start) == 0);
-      assert((tcs[i].stat = 
+      assert((tcs[i].stat =
 	      pthread_create (&tcs[i].thread,
 			      NULL,
                   (void *(*)(void *))print_server,
                 (void *) &tcs[i])
 	      ) == 0);
 
-      /* 
+      /*
        * Wait for thread initialisation
        */
       {
@@ -331,7 +331,7 @@ main (int argc, char *argv[])
 	assert(pthread_join (tcs[i].thread, NULL) == 0);
     }
 
-  /* 
+  /*
    * destroy locks
    */
   assert(pthread_mutex_destroy (&mutex_stdout) == 0);

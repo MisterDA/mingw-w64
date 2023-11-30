@@ -32,7 +32,7 @@ void test_clock_gettime()
     rc = clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tp);
     assert(rc == 0);
     printf("[%10"PRId64".%09d] clock_gettime (CLOCK_THREAD_CPUTIME_ID)\n", (__int64) tp.tv_sec, (int) tp.tv_nsec);
-    
+
     rc = clock_nanosleep(CLOCK_REALTIME, 0, &request, &remain);
     assert(rc == 0);
 

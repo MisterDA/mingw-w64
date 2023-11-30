@@ -94,7 +94,7 @@ void *spinlock_threadfunc(void *param)
    }
    return NULL;
 }
- 
+
 int spinlock_main(void)
 {
     pthread_t             thread[SPINLOCK_NTHREADS];
@@ -293,7 +293,7 @@ void *mutex_threadfunc_raced(void *parm)
    }
    return NULL;
 }
- 
+
 static volatile LONG _tid=0;
 void *mutex_threadfunc_timed(void *param)
 {
@@ -332,7 +332,7 @@ void *mutex_threadfunc_timed(void *param)
    --sharedData2;
    printf("Thread %d: End critical section, release lock\n",
           tid);
-   d -= (e); 
+   d -= (e);
    if (d) {
         printf("FAILED Thread %d: check sharedData=%d instead of 0\n", tid, d);
         mutex_print(&mutex,"Race cond");
@@ -344,9 +344,9 @@ void *mutex_threadfunc_timed(void *param)
    checkResults("pthread_mutex_unlock()\n", rc);
    return NULL;
 }
- 
+
 /* PTHREAD_NORMAL_MUTEX_INITIALIZER deadlock handling thread 1 */
-void *mutex_threadfuncDL1(void *param)  
+void *mutex_threadfuncDL1(void *param)
 {
    int   rc;
    int d;
@@ -371,7 +371,7 @@ void *mutex_threadfuncDL1(void *param)
    printf("Thread %d: leaving\n", tid);
    return NULL;
 }
- 
+
 /* PTHREAD_NORMAL_MUTEX_INITIALIZER deadlock handling main thread */
 int mutex_main_DL(void)
 {
@@ -397,7 +397,7 @@ int mutex_main_DL(void)
 
    return 0;
 }
- 
+
 int mutex_main_timed(void)
 {
     pthread_t             thread[MUTEX_NTHREADS];
@@ -526,7 +526,7 @@ int mutex_main_raced(void)
     return 0;
 }
 
- 
+
 int mutex_main_static(void)
 {
     pthread_t             thread[MUTEX_NTHREADS];
@@ -691,13 +691,13 @@ void *condTimed_threadfunc(void *param)
         pthread_exit(NULL);
       }
       checkResults("pthread_cond_timedwait()\n", rc);
-    } while (!workLeave && !workToDo); 
+    } while (!workLeave && !workToDo);
     if (workToDo) {
         printf("Thread %d consumes work here\n", tid);
         Sleep(2000);
         workToDo = 0;
     }
-  } 
+  }
   printf("Thread %d leaves here\n", tid);
   rc = pthread_mutex_unlock(&mutex);
   checkResults("pthread_mutex_unlock() B\n", rc);
@@ -715,10 +715,10 @@ int condTimed_main()
 
   rc = pthread_mutex_init (&mutex, NULL);
   checkResults("pthread_mutex_init()\n", rc);
-    
+
   rc = pthread_cond_init (&cond, NULL);
   checkResults("pthread_cond_init()\n", rc);
-    
+
   rc = pthread_mutex_lock(&mutex);
   checkResults("pthread_mutex_lock()\n", rc);
 
@@ -839,13 +839,13 @@ void *condTimed_threadfunc(void *param)
         pthread_exit(NULL);
       }
       checkResults("pthread_cond_timedwait()\n", rc);
-    } while (!workLeave && !workToDo); 
+    } while (!workLeave && !workToDo);
     if (workToDo) {
         printf("Thread %d consumes work here\n", tid);
         Sleep(2000);
         workToDo = 0;
     }
-  } 
+  }
   printf("Thread %d leaves here\n", tid);
   rc = pthread_mutex_unlock(&mutex);
   checkResults("pthread_mutex_unlock() B\n", rc);
@@ -867,19 +867,19 @@ int condTimed_main()
     } else {
       rc = pthread_mutex_init (&mutex, NULL);
       checkResults("pthread_mutex_init()\n", rc);
-    
+
       rc = pthread_cond_init (&cond, NULL);
       checkResults("pthread_cond_init()\n", rc);
         printf("cond + mutex normal initialized\n");
     }
 
-    
+
   rc = pthread_mutex_lock(&mutex);
   checkResults("pthread_mutex_lock()\n", rc);
     printf("Mutex locked \n");
 
   printf("Try steal a signal 1, should timeout\n");
-  
+
   printf("Timed wait 1, waiters=%d\n",cond->waiters_count_);
   rc = pthread_cond_timedwait(&cond, &mutex, starttimer(&ts, 3000 ));
   printf("rc=%d\n",rc);
@@ -1209,7 +1209,7 @@ void *barrier_Thread(void *arg)
             /* without this printf the test hangs here */
             /* try USE_MUTEX_CriticalSection + USE_COND_Semaphore */
             //printf ("Wait for the rest again continue %d\n",j);
-    
+
             /* Now we can check whether exactly one thread was serializing.  */
             if (nr == 0 && serial[j] != 1)
             {
@@ -1326,7 +1326,7 @@ int main(int argc, char * argv[]) {
         strcpy(testType, argv[2]);
     }
 
-    strcpy(name, argv[1]); 
+    strcpy(name, argv[1]);
     printf ("Threads test: %s\n",name);
     printf ("P size: %d %d\n",SIZE_MAX>UINT_MAX,sizeof(struct timespec ));
     if (strcmp(name, "thread") == 0) thread();
@@ -1339,6 +1339,6 @@ int main(int argc, char * argv[]) {
     else if (strcmp(name, "mutex") == 0) mutex_main();
     else if (strcmp(name, "spinlock") == 0) spinlock_main();
     else printf ("Unknown test name '%s'\n",name);
- 
+
         return 0;
 }

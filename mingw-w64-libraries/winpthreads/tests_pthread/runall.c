@@ -17,7 +17,7 @@ int main(int argc, char * argv[])
     struct stat st;
     DIR *dir;
     struct dirent *ent;
-    
+
     if (argc!=2) {
         printf("usage: runall <dir>\n");
         return 0; //EXIT_FAILURE;
@@ -39,8 +39,8 @@ int main(int argc, char * argv[])
                     sprintf(ffail,"%s.fail",b);
                     sprintf(fres,"%s.res",b);
                     sprintf(fnob,"%s.x",b);
-                   
-                    if (stat(fexe,&st)==0) { 
+
+                    if (stat(fexe,&st)==0) {
                         if ( (stat(fpass,&st)!=0) && (stat(ffail,&st)!=0)) {
                             sprintf(cmd,"%s 2> %s",fexe,fres);
                             if (system(cmd)) {

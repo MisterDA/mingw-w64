@@ -10,7 +10,7 @@ static void * func(void * arg)
 
   Sleep(1000);
 
-  return 0; 
+  return 0;
 }
 
 static void
@@ -38,7 +38,7 @@ main()
 
   SuspendThread(hThread);
 
-  if (WaitForSingleObject(hThread, 0) == WAIT_TIMEOUT) 
+  if (WaitForSingleObject(hThread, 0) == WAIT_TIMEOUT)
     {
       /*
        * Ok, thread did not exit before we got to it.

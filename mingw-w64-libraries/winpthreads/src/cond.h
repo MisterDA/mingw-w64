@@ -40,7 +40,7 @@
 typedef struct cond_t cond_t;
 struct cond_t
 {
-    unsigned int valid;   
+    unsigned int valid;
     int busy;
     LONG waiters_count_; /* Number of waiting threads.  */
     LONG waiters_count_unblock_; /* Number of waiting threads which can be unblocked.  */

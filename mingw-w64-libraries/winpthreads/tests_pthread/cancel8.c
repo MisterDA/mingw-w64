@@ -35,7 +35,7 @@ Win32thread(void * arg)
 
   assert((bag->self = pthread_self()) != 0);
   assert(pthread_gethandle (bag->self) != NULL);
-  
+
   assert(pthread_kill(bag->self, 0) == 0);
 
   assert(pthread_mutex_lock(&CVLock) == 0);
@@ -84,7 +84,7 @@ main()
    * Standard check that all threads started.
    */
   for (i = 1; i <= NUMTHREADS; i++)
-    { 
+    {
       if (!threadbag[i].started)
 	{
 	  failed |= !threadbag[i].started;

@@ -87,7 +87,7 @@ static WINPTHREADS_ATTRIBUTE((noinline)) int rwl_ref_destroy(pthread_rwlock_t *r
 
     *rDestroy = (pthread_rwlock_t)NULL;
     pthread_spin_lock(&rwl_global);
-    
+
     if (!rwl || !*rwl) r = EINVAL;
     else {
         rwlock_t *r_ = (rwlock_t *)*rwl;
@@ -145,7 +145,7 @@ void rwl_print(volatile pthread_rwlock_t *rwl, char *txt)
         printf("RWL%p %lu V=%0X B=%d r=%ld w=%ld L=%p %s\n",
             (void *)*rwl,
             GetCurrentThreadId(),
-            (int)r->valid, 
+            (int)r->valid,
             (int)r->busy,
             0L,0L,NULL,txt);
     }
@@ -165,7 +165,7 @@ static WINPTHREADS_ATTRIBUTE((noinline)) int rwlock_static_init(pthread_rwlock_t
   }
   r = pthread_rwlock_init (rw, NULL);
   pthread_spin_unlock(&cond_locked);
-  
+
   return r;
 }
 
@@ -178,7 +178,7 @@ int pthread_rwlock_init (pthread_rwlock_t *rwlock_, const pthread_rwlockattr_t *
       return EINVAL;
     *rwlock_ = (pthread_rwlock_t)NULL;
     if ((rwlock = calloc(1, sizeof(*rwlock))) == NULL)
-      return ENOMEM; 
+      return ENOMEM;
     rwlock->valid = DEAD_RWLOCK;
 
     rwlock->nex_count = rwlock->nsh_count = rwlock->ncomplete = 0;
@@ -203,18 +203,18 @@ int pthread_rwlock_init (pthread_rwlock_t *rwlock_, const pthread_rwlockattr_t *
     rwlock->valid = LIFE_RWLOCK;
     *rwlock_ = (pthread_rwlock_t)rwlock;
     return r;
-} 
+}
 
 int pthread_rwlock_destroy (pthread_rwlock_t *rwlock_)
 {
     rwlock_t *rwlock;
     pthread_rwlock_t rDestroy;
     int r, r2;
-    
+
     pthread_spin_lock(&cond_locked);
     r = rwl_ref_destroy(rwlock_,&rDestroy);
     pthread_spin_unlock(&cond_locked);
-    
+
     if(r) return r;
     if(!rDestroy) return 0; /* destroyed a (still) static initialized rwl */
 
@@ -245,7 +245,7 @@ int pthread_rwlock_destroy (pthread_rwlock_t *rwlock_)
     rwlock->valid  = DEAD_RWLOCK;
     free((void *)rDestroy);
     return 0;
-} 
+}
 
 int pthread_rwlock_rdlock (pthread_rwlock_t *rwlock_)
 {
@@ -340,7 +340,7 @@ int pthread_rwlock_tryrdlock (pthread_rwlock_t *rwlock_)
   }
   ret = pthread_mutex_unlock(&rwlock->mex);
   return rwl_unref(rwlock_,ret);
-} 
+}
 
 int pthread_rwlock_trywrlock (pthread_rwlock_t *rwlock_)
 {
@@ -378,7 +378,7 @@ int pthread_rwlock_trywrlock (pthread_rwlock_t *rwlock_)
   }
   rwlock->nex_count = 1;
   return rwl_unref(rwlock_, 0);
-} 
+}
 
 int pthread_rwlock_unlock (pthread_rwlock_t *rwlock_)
 {
@@ -409,7 +409,7 @@ int pthread_rwlock_unlock (pthread_rwlock_t *rwlock_)
     ret = rwlock_free_both_locks(rwlock, 0);
   }
   return rwl_unref(rwlock_, ret);
-} 
+}
 
 static void st_cancelwrite (void *arg)
 {

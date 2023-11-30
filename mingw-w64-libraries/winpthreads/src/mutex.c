@@ -200,7 +200,7 @@ int pthread_mutex_timedlock(pthread_mutex_t *m, const struct timespec *ts)
 }
 
 int pthread_mutex_unlock(pthread_mutex_t *m)
-{    
+{
   /* Here m might an initialiser of an error-checking or recursive mutex, in
      which case the behaviour is well-defined, so we can't skip this check. */
   mutex_impl_t *mi = mutex_impl(m);
@@ -307,7 +307,7 @@ int pthread_mutexattr_gettype(const pthread_mutexattr_t *a, int *type)
     return EINVAL;
 	
   *type = *a & 3;
-  
+
   return 0;
 }
 

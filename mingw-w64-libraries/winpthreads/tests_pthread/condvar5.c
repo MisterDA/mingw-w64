@@ -61,7 +61,7 @@ main()
   abstime.tv_sec += 5;
 
   assert(pthread_cond_timedwait(&cvthing.notbusy, &cvthing.lock, &abstime) == ETIMEDOUT);
-  
+
   assert(cvthing.notbusy != PTHREAD_COND_INITIALIZER);
 
   assert(pthread_create(&t[1], NULL, mythread, (void *) 1) == 0);

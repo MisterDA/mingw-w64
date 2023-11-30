@@ -350,5 +350,5 @@ sem_getvalue (sem_t *sem, int *sval)
 
   *sval = (int) sv->value;
   pthread_mutex_unlock (&sv->vlock);
-  return 0;  
+  return 0;
 }
