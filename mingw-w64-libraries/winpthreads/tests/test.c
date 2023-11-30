@@ -462,7 +462,7 @@ static int mutex_main_raced(void)
 
     mutex_print_set(1);
     checkAbort = 0;
-    thread = (pthread_t *)calloc(MUTEX_NTHREADS, sizeof(pthread_t));
+    thread = calloc(MUTEX_NTHREADS, sizeof(pthread_t));
     printf("Enter Testcase - mutex_main_raced %s\n",testType);
     mutex = PTHREAD_NORMAL_MUTEX_INITIALIZER;
     printf("Mutex inited\n");
@@ -571,7 +571,7 @@ static int mutex_main(void)
 
     int tid = 0;
      mutex_print_set(1);
-     thread = (pthread_t *)calloc(MUTEX_NTHREADS, sizeof(pthread_t));
+     thread = calloc(MUTEX_NTHREADS, sizeof(pthread_t));
      printf("Main thread %d: Entered\n", tid);
     printf("Enter Testcase - mutex_main %s\n",testType);
     if (strcmp(testType,"static") == 0) {
@@ -1289,10 +1289,10 @@ static void thread(void)
         exit(1);
     }
 
-    threads=(pthread_t *)malloc(n*sizeof(*threads));
+    threads = malloc(n*sizeof(*threads));
     pthread_attr_init(&pthread_custom_attr);
 
-    p=(parm *)malloc(sizeof(parm)*n);
+    p = malloc(sizeof(parm)*n);
     /* Start up thread */
 
     for (i=0; i<n; i++)

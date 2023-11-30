@@ -219,7 +219,7 @@ __pthread_register_pointer (struct _pthread_v *ptr)
     {
       if (!idListCnt)
         {
-	  e = (__pthread_idlist *) malloc (sizeof (__pthread_idlist) * 16);
+	  e = malloc (sizeof (__pthread_idlist) * 16);
 	  if (!e)
 	    return 0;
 	  idListMax = 16;
@@ -227,7 +227,7 @@ __pthread_register_pointer (struct _pthread_v *ptr)
 	}
       else
         {
-	  e = (__pthread_idlist *) realloc (idList, sizeof (__pthread_idlist) * (idListMax + 16));
+	  e = realloc (idList, sizeof (__pthread_idlist) * (idListMax + 16));
 	  if (!e)
 	    return 0;
 	  idListMax += 16;
@@ -338,7 +338,7 @@ pop_pthread_mem (void)
   pthread_mutex_lock (&mtx_pthr_locked);
   if ((r = pthr_root) == NULL)
     {
-      if ((r = (_pthread_v *)calloc (1,sizeof(struct _pthread_v))) != NULL)
+      if ((r = calloc (1,sizeof(struct _pthread_v))) != NULL)
 	{
 	  r->x = __pthread_register_pointer (r);
 	  if (r->x == 0)
@@ -589,7 +589,7 @@ enterOnceObject (pthread_once_t *o)
     }
   if (!c)
     {
-      c = (collect_once_t *) calloc(1,sizeof(collect_once_t));
+      c = calloc(1,sizeof(collect_once_t));
       c->o = o;
       c->count = 1;
       if (!p)
@@ -845,7 +845,7 @@ pthread_key_create (pthread_key_t *key, void (* dest)(void *))
 		nmax = PTHREAD_KEYS_MAX;
 
 	/* No spare room anywhere */
-	d = (void (__cdecl **)(void *))realloc(_pthread_key_dest, nmax * sizeof(*d));
+	d = realloc(_pthread_key_dest, nmax * sizeof(*d));
 	if (!d)
 	{
 		pthread_rwlock_unlock (&_pthread_key_lock);
