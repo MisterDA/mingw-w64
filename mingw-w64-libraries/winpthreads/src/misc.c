@@ -163,7 +163,7 @@ _pthread_wait_for_single_object (void *handle, unsigned long timeout)
  * is acceptable in a preemptive multitasking environment.
  */
 unsigned long
-_pthread_wait_for_multiple_objects (unsigned long count, void **handles, unsigned int all, unsigned long timeout)
+_pthread_wait_for_multiple_objects (unsigned long count, void **handles, int all, unsigned long timeout)
 {
   DWORD result;
   unsigned long long start_time, end_time;
