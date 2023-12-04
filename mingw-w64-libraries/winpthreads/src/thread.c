@@ -43,8 +43,8 @@ static pthread_once_t _pthread_tls_once;
 static DWORD _pthread_tls = 0xffffffff;
 
 static pthread_rwlock_t _pthread_key_lock = PTHREAD_RWLOCK_INITIALIZER;
-static unsigned long _pthread_key_max=0L;
-static unsigned long _pthread_key_sch=0L;
+static unsigned int _pthread_key_max;
+static unsigned int _pthread_key_sch;
 
 static _pthread_v *pthr_root = NULL, *pthr_last = NULL;
 static pthread_mutex_t mtx_pthr_locked = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
@@ -794,8 +794,7 @@ pthread_once (pthread_once_t *o, void (*func)(void))
 int
 pthread_key_create (pthread_key_t *key, void (* dest)(void *))
 {
-	unsigned int i;
-	long nmax;
+	unsigned int i, nmax;
 	void (**d)(void *);
 
 	if (!key)
@@ -914,7 +913,7 @@ pthread_setspecific (pthread_key_t key, const void *value)
 
   if (key >= t->keymax)
     {
-      int keymax = (key + 1);
+      unsigned int keymax = (key + 1);
       void **kv;
       unsigned char *kv_set;
 
