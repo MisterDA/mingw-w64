@@ -194,7 +194,7 @@ int pthread_barrier_wait(pthread_barrier_t *b_)
     b->sel = (sel != 0 ? 0 : 1);
     e = 1;
     rslt = PTHREAD_BARRIER_SERIAL_THREAD;
-    r = (b->count > 1 ? sem_post_multiple (&b->sems[sel], b->count - 1) : 0);
+    r = (b->count > 1 ? sem_post_multiple (&b->sems[sel], (int)b->count - 1) : 0);
   }
   else { e = 0; rslt= 0; }
   pthread_mutex_unlock(&b->m);
