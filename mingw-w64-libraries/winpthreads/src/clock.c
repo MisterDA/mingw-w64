@@ -20,7 +20,7 @@
 /* Number of 100ns-seconds between the beginning of the Windows epoch
  * (Jan. 1, 1601) and the Unix epoch (Jan. 1, 1970)
  */
-#define DELTA_EPOCH_IN_100NS    INT64_C(116444736000000000)
+#define DELTA_EPOCH_IN_100NS    UINT64_C(116444736000000000)
 
 static WINPTHREADS_INLINE int lc_set_errno(int result)
 {
@@ -271,7 +271,7 @@ int clock_settime(clockid_t clock_id, const struct timespec *tp)
     if (clock_id != CLOCK_REALTIME)
         return lc_set_errno(EINVAL);
 
-    t.u64 = tp->tv_sec * (__int64) POW10_7 + tp->tv_nsec / 100 + DELTA_EPOCH_IN_100NS;
+    t.u64 = (unsigned __int64)tp->tv_sec * POW10_7 + (unsigned __int64)tp->tv_nsec / 100 + DELTA_EPOCH_IN_100NS;
     if (FileTimeToSystemTime(&t.ft, &st) == 0)
         return lc_set_errno(EINVAL);
 

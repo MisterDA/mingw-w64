@@ -88,7 +88,7 @@ _pthread_get_tick_count (long long *frequency)
   }
 
   if (*frequency > 0 && QueryPerformanceCounter (&timestamp))
-    return timestamp.QuadPart / (*frequency / 1000);
+    return (unsigned long long)(timestamp.QuadPart / (*frequency / 1000));
 
   /* Fallback */
   return GetTickCount ();

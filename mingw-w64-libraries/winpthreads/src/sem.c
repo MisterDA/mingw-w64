@@ -55,7 +55,7 @@ sem_init (sem_t *sem, int pshared, unsigned int value)
   if ((sv = (sem_t) calloc (1,sizeof (*sv))) == NULL)
     return sem_result (ENOMEM);
 
-  sv->value = value;
+  sv->value = (long)value;
   if (pthread_mutex_init (&sv->vlock, NULL) != 0)
     {
       free (sv);

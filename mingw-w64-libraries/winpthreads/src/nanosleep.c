@@ -27,7 +27,8 @@
  */
 int nanosleep(const struct timespec *request, struct timespec *remain)
 {
-    unsigned long ms, rc = 0;
+    int rc = 0;
+    unsigned long ms;
     unsigned __int64 u64, want, real;
 
     union {
@@ -42,7 +43,8 @@ int nanosleep(const struct timespec *request, struct timespec *remain)
 
     if (remain != NULL) GetSystemTimeAsFileTime(&_start.ft);
 
-    want = u64 = request->tv_sec * POW10_3 + request->tv_nsec / POW10_6;
+    want = u64 = (unsigned __int64) request->tv_sec * POW10_3
+               + (unsigned __int64) request->tv_nsec / POW10_6;
     while (u64 > 0 && rc == 0) {
         if (u64 >= MAX_SLEEP_IN_MS) ms = MAX_SLEEP_IN_MS;
         else ms = (unsigned long) u64;
