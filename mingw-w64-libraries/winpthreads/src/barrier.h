@@ -41,8 +41,8 @@ struct barrier_t
 {
     unsigned int valid;
     int busy;
-    int count;
-    int total;
+    unsigned int count;
+    unsigned int total;
     int share;
     long sel;
     pthread_mutex_t m;
