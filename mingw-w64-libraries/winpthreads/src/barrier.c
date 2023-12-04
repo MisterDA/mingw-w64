@@ -141,10 +141,10 @@ pthread_barrier_init (pthread_barrier_t *b_, const void *attr,
 
     if ((b = (pthread_barrier_t)calloc(1,sizeof(*b))) == NULL)
        return ENOMEM;
-    if (!attr || *((int **)attr) == NULL)
+    if (!attr || *attr == NULL)
       b->share = PTHREAD_PROCESS_PRIVATE;
     else
-      memcpy (&b->share, *((void **) attr), sizeof (int));
+      memcpy (&b->share, *attr, sizeof (int));
     b->total = count;
     b->count = count;
     b->valid = LIFE_BARRIER;
