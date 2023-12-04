@@ -39,7 +39,7 @@
 typedef struct barrier_t barrier_t;
 struct barrier_t
 {
-    int valid;
+    unsigned int valid;
     int busy;
     int count;
     int total;
