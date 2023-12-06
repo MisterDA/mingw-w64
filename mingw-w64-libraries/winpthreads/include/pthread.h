@@ -81,7 +81,10 @@ extern "C" {
 #define __WINPTHREADS_VERSION_PATCHLEVEL 0
 
 /* MSB 8-bit major version, 8-bit minor version, 16-bit patch level.  */
-#define __WINPTHREADS_VERSION 0x00050000
+#define __WINPTHREADS_VERSION                           \
+    (((__WINPTHREADS_VERSION_MAJOR & 0xff) << 24) |     \
+     ((__WINPTHREADS_VERSION_MINOR & 0xff) << 16) |     \
+     (__WINPTHREADS_VERSION_PATCHLEVEL & 0xffff))
 
 #if defined(IN_WINPTHREAD)
 #  if defined(DLL_EXPORT)
