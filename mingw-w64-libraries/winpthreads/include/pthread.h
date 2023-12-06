@@ -183,7 +183,7 @@ int    WINPTHREAD_API pthread_set_num_processors_np(int n);
 #define pthread_attr_setgaurdsize(A, S) ENOTSUP
 
 typedef long pthread_once_t;
-typedef unsigned pthread_mutexattr_t;
+typedef int pthread_mutexattr_t;
 typedef unsigned pthread_key_t;
 typedef void *pthread_barrierattr_t;
 typedef int pthread_condattr_t;
@@ -248,7 +248,7 @@ int WINPTHREAD_API sched_setscheduler(pid_t pid, int pol, const struct sched_par
 typedef struct pthread_attr_t pthread_attr_t;
 struct pthread_attr_t
 {
-    unsigned p_state;
+    int p_state;
     void *stack;
     size_t s_size;
     struct sched_param param;
@@ -303,8 +303,8 @@ void      WINPTHREAD_API pthread_exit(void *res);
 void      WINPTHREAD_API _pthread_invoke_cancel(void);
 int       WINPTHREAD_API pthread_cancel(pthread_t t);
 int       WINPTHREAD_API pthread_kill(pthread_t t, int sig);
-unsigned  WINPTHREAD_API _pthread_get_state(const pthread_attr_t *attr, unsigned flag);
-int       WINPTHREAD_API _pthread_set_state(pthread_attr_t *attr, unsigned flag, unsigned val);
+int       WINPTHREAD_API _pthread_get_state(const pthread_attr_t *attr, int flag);
+int       WINPTHREAD_API _pthread_set_state(pthread_attr_t *attr, int flag, int val);
 int       WINPTHREAD_API pthread_setcancelstate(int state, int *oldstate);
 int       WINPTHREAD_API pthread_setcanceltype(int type, int *oldtype);
 unsigned  WINPTHREAD_API __stdcall pthread_create_wrapper(void *args);

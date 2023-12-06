@@ -45,7 +45,7 @@ struct _pthread_v
     int cancelled : 2;
     int in_cancel : 2;
     int thread_noposix : 2;
-    unsigned int p_state;
+    int p_state;
     unsigned int keymax;
     void **keyval;
     unsigned char *keyval_set;
