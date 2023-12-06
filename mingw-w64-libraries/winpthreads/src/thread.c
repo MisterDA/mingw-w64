@@ -1343,14 +1343,14 @@ pthread_kill (pthread_t t, int sig)
   return pthread_cancel(t);
 }
 
-unsigned
-_pthread_get_state (const pthread_attr_t *attr, unsigned flag)
+int
+_pthread_get_state (const pthread_attr_t *attr, int flag)
 {
   return (attr->p_state & flag);
 }
 
 int
-_pthread_set_state (pthread_attr_t *attr, unsigned flag, unsigned val)
+_pthread_set_state (pthread_attr_t *attr, int flag, int val)
 {
   if (~flag & val)
     return EINVAL;
