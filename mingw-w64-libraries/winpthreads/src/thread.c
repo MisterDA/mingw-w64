@@ -966,7 +966,7 @@ pthread_equal (pthread_t t1, pthread_t t2)
 }
 
 void
-pthread_tls_init (void)
+_pthread_tls_init (void)
 {
   _pthread_tls = TlsAlloc();
 
@@ -1030,7 +1030,7 @@ __pthread_self_lite (void)
   _pthread_v *t;
   pthread_spinlock_t new_spin_keys = PTHREAD_SPINLOCK_INITIALIZER;
 
-  _pthread_once_raw (&_pthread_tls_once, pthread_tls_init);
+  _pthread_once_raw (&_pthread_tls_once, _pthread_tls_init);
 
   t = (_pthread_v *) TlsGetValue (_pthread_tls);
   if (t)
@@ -1073,7 +1073,7 @@ pthread_self (void)
 
 /* Internal helper for getting event handle of thread T.  */
 void *
-pthread_getevent (void)
+_pthread_getevent (void)
 {
   _pthread_v *t = __pthread_self_lite ();
   return (!t ? NULL : t->evStart);
@@ -1081,7 +1081,7 @@ pthread_getevent (void)
 
 /* Internal helper for getting thread handle of thread T.  */
 void *
-pthread_gethandle (pthread_t t)
+_pthread_gethandle (pthread_t t)
 {
   struct _pthread_v *tv = __pth_gpointer_locked (t);
   return (!tv ? NULL : tv->h);
@@ -1089,7 +1089,7 @@ pthread_gethandle (pthread_t t)
 
 /* Internal helper for getting pointer of clean of current thread.  */
 const struct _pthread_cleanup **
-pthread_getclean (void)
+_pthread_getclean (void)
 {
   struct _pthread_v *t = __pthread_self_lite ();
   if (!t) return NULL;
@@ -1535,7 +1535,7 @@ __attribute__((force_align_arg_pointer))
 #  endif
 #endif
 unsigned __stdcall
-pthread_create_wrapper (void *args)
+_pthread_create_wrapper (void *args)
 {
   unsigned rslt = 0;
   struct _pthread_v *tv = (struct _pthread_v *)args;
@@ -1544,7 +1544,7 @@ pthread_create_wrapper (void *args)
 
   pthread_mutex_lock (&mtx_pthr_locked);
   pthread_mutex_lock (&tv->p_clock);
-  _pthread_once_raw(&_pthread_tls_once, pthread_tls_init);
+  _pthread_once_raw(&_pthread_tls_once, _pthread_tls_init);
   TlsSetValue(_pthread_tls, tv);
   tv->tid = GetCurrentThreadId();
   pthread_mutex_unlock (&tv->p_clock);
@@ -1675,7 +1675,7 @@ pthread_create (pthread_t *th, const pthread_attr_t *attr, void *(* func)(void *
   /* Make sure tv->h has value of INVALID_HANDLE_VALUE */
   _ReadWriteBarrier();
 
-  thrd = (HANDLE)(uintptr_t) _beginthreadex(NULL, ssize, pthread_create_wrapper, tv, 0x4/*CREATE_SUSPEND*/, NULL);
+  thrd = (HANDLE)(uintptr_t) _beginthreadex(NULL, ssize, _pthread_create_wrapper, tv, 0x4/*CREATE_SUSPEND*/, NULL);
   if (thrd == INVALID_HANDLE_VALUE)
     thrd = 0;
   /* Failed */
@@ -1921,3 +1921,18 @@ pthread_getname_np (pthread_t thread, char *name, size_t len)
 
   return ERANGE;
 }
+
+
+/* Deprecated aliases */
+void * pthread_getevent (void) { return _pthread_getevent (); }
+void * pthread_gethandle (pthread_t t) { return _pthread_gethandle (t); }
+const struct _pthread_cleanup ** pthread_getclean (void) { return _pthread_getclean (); }
+void pthread_tls_init (void) { _pthread_tls_init (); }
+
+#if defined(__i386__)
+/* Align ESP on 16-byte boundaries. */
+#  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 2)
+__attribute__((force_align_arg_pointer))
+#  endif
+#endif
+unsigned __stdcall pthread_create_wrapper (void *args) { return _pthread_create_wrapper (args); }

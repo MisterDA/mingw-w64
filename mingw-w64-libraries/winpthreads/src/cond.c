@@ -639,7 +639,7 @@ do_sema_b_wait_intern (HANDLE sema, int nointerrupt, DWORD timeout)
     return r;
   }
   arr[0] = sema;
-  arr[1] = (HANDLE) pthread_getevent ();
+  arr[1] = (HANDLE) _pthread_getevent ();
   if (arr[1] != NULL) maxH += 1;
   if (maxH == 2)
   {

@@ -214,7 +214,7 @@ struct _pthread_cleanup
 #define pthread_cleanup_push(F, A)                                      \
     do {                                                                \
         const _pthread_cleanup _pthread_cup =                           \
-            { (F), (A), *pthread_getclean() };                          \
+            { (F), (A), *_pthread_getclean() };                         \
         MemoryBarrier();                                                \
         *pthread_getclean() = &_pthread_cup;                            \
         MemoryBarrier();                                                \
@@ -224,7 +224,7 @@ struct _pthread_cleanup
 /* Note that if async cancelling is used, then there is a race here */
 #define pthread_cleanup_pop(E)                                          \
         } while (0);                                                    \
-        *pthread_getclean() = _pthread_cup.next;                        \
+        *_pthread_getclean() = _pthread_cup.next;                       \
         if ((E)) _pthread_cup.func(_pthread_cup.arg);                   \
     } while (0)
 
@@ -298,7 +298,7 @@ pthread_t WINPTHREAD_API pthread_self(void);
 int       WINPTHREAD_API pthread_once(pthread_once_t *o, void (*func)(void));
 void      WINPTHREAD_API pthread_testcancel(void);
 int       WINPTHREAD_API pthread_equal(pthread_t t1, pthread_t t2);
-void      WINPTHREAD_API pthread_tls_init(void);
+void      WINPTHREAD_API _pthread_tls_init(void);
 void      WINPTHREAD_API _pthread_cleanup_dest(pthread_t t);
 int       WINPTHREAD_API pthread_get_concurrency(int *val);
 int       WINPTHREAD_API pthread_set_concurrency(int val);
@@ -310,13 +310,17 @@ int       WINPTHREAD_API _pthread_get_state(const pthread_attr_t *attr, int flag
 int       WINPTHREAD_API _pthread_set_state(pthread_attr_t *attr, int flag, int val);
 int       WINPTHREAD_API pthread_setcancelstate(int state, int *oldstate);
 int       WINPTHREAD_API pthread_setcanceltype(int type, int *oldtype);
-unsigned  WINPTHREAD_API __stdcall pthread_create_wrapper(void *args);
+unsigned  WINPTHREAD_API __stdcall _pthread_create_wrapper(void *args);
 int       WINPTHREAD_API pthread_create(pthread_t *th, const pthread_attr_t *attr, void *(* func)(void *), void *arg);
 int       WINPTHREAD_API pthread_join(pthread_t t, void **res);
 int       WINPTHREAD_API pthread_detach(pthread_t t);
 int       WINPTHREAD_API pthread_setname_np(pthread_t thread, const char *name);
 int       WINPTHREAD_API pthread_getname_np(pthread_t thread, char *name, size_t len);
 
+WINPTHREADS_ATTRIBUTE((deprecated("Use non-standard _pthread_tls_init instead.")))
+void      WINPTHREAD_API pthread_tls_init(void);
+WINPTHREADS_ATTRIBUTE((deprecated("Use non-standard _pthread_create_wrapper instead.")))
+unsigned  WINPTHREAD_API __stdcall pthread_create_wrapper(void *args);
 
 int WINPTHREAD_API pthread_rwlock_init(pthread_rwlock_t *rwlock_, const pthread_rwlockattr_t *attr);
 int WINPTHREAD_API pthread_rwlock_wrlock(pthread_rwlock_t *l);
@@ -404,8 +408,15 @@ int WINPTHREAD_API pthread_barrierattr_setpshared(pthread_barrierattr_t *attr, i
 int WINPTHREAD_API pthread_barrierattr_getpshared(const pthread_barrierattr_t *attr, int *s);
 
 /* Private extensions for analysis and internal use.  */
+const _pthread_cleanup **  WINPTHREAD_API _pthread_getclean (void);
+void *                     WINPTHREAD_API _pthread_gethandle (pthread_t t);
+void *                     WINPTHREAD_API _pthread_getevent (void);
+
+WINPTHREADS_ATTRIBUTE((deprecated("Use non-standard _pthread_getclean instead.")))
 const _pthread_cleanup **  WINPTHREAD_API pthread_getclean (void);
+WINPTHREADS_ATTRIBUTE((deprecated("Use non-standard _pthread_gethandle instead.")))
 void *                     WINPTHREAD_API pthread_gethandle (pthread_t t);
+WINPTHREADS_ATTRIBUTE((deprecated("Use non-standard _pthread_getevent instead.")))
 void *                     WINPTHREAD_API pthread_getevent (void);
 
 unsigned long long         WINPTHREAD_API _pthread_rel_time_in_ms(const struct timespec *ts);
