@@ -1549,7 +1549,7 @@ pthread_create_wrapper (void *args)
       #endif      /* Call function and save return value */
       pthread_mutex_unlock (&mtx_pthr_locked);
       if (tv->func)
-        trslt = (intptr_t) tv->func(tv->ret_arg);
+        trslt = (intptr_t)(void*) tv->func(tv->ret_arg);
       #ifdef __SEH__
 	asm ("\tnop\n\t.tl_end: nop\n"
 #ifdef __arm__
@@ -1665,7 +1665,7 @@ pthread_create (pthread_t *th, const pthread_attr_t *attr, void *(* func)(void *
   /* Make sure tv->h has value of INVALID_HANDLE_VALUE */
   _ReadWriteBarrier();
 
-  thrd = (HANDLE) _beginthreadex(NULL, ssize, pthread_create_wrapper, tv, 0x4/*CREATE_SUSPEND*/, NULL);
+  thrd = (HANDLE)(uintptr_t) _beginthreadex(NULL, ssize, pthread_create_wrapper, tv, 0x4/*CREATE_SUSPEND*/, NULL);
   if (thrd == INVALID_HANDLE_VALUE)
     thrd = 0;
   /* Failed */
