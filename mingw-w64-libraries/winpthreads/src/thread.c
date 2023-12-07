@@ -940,7 +940,7 @@ pthread_setspecific (pthread_key_t key, const void *value)
       t->keymax = keymax;
     }
 
-  t->keyval[key] = (void *) value;
+  memcpy(t->keyval + key, &value, sizeof(value));
   t->keyval_set[key] = 1;
   pthread_spin_unlock (&t->spin_keys);
   SetLastError (lasterr);
