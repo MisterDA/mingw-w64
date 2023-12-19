@@ -101,6 +101,12 @@ const char * error_string[] = {
   "EILSEQ"
 };
 
+#ifdef _USE_32BIT_TIME_T
+# define PRINT_TIME_T "ld"
+#else
+# define PRINT_TIME_T "lld"
+#endif
+
 #include <assert.h>
 
 #ifndef ASSERT_TRACE
