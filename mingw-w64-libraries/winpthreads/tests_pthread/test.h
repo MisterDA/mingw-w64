@@ -101,6 +101,12 @@ const char * error_string[] = {
   "EILSEQ"
 };
 
+#ifdef _USE_32BIT_TIME_T
+# define PRINT_TIME_T "ld"
+#else
+# define PRINT_TIME_T "lld"
+#endif
+
 /*
  * The Mingw32 assert macro calls the CRTDLL _assert function
  * which pops up a dialog. We want to run in batch mode so
