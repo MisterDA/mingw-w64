@@ -274,7 +274,7 @@ main (int argc, char *argv[])
 {
   int		i;
 
-  assert(NULL != calloc (nthreads, sizeof (*tcs))));
+  assert(NULL != (tcs = calloc (nthreads, sizeof (*tcs))));
 
   /*
    * Launch threads
