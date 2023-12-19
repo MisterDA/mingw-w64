@@ -46,7 +46,7 @@
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int
-main()
+main(void)
 {
   assert(mutex == PTHREAD_MUTEX_INITIALIZER);
   fprintf (stderr, "Try lock\n");

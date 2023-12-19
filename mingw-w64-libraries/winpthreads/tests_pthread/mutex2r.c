@@ -46,7 +46,7 @@
 static pthread_mutex_t mutex = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
 int
-main()
+main(void)
 {
   assert(mutex == PTHREAD_RECURSIVE_MUTEX_INITIALIZER);
 

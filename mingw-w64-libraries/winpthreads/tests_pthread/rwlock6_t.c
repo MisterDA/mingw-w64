@@ -89,7 +89,7 @@ void * rdfunc(void * arg)
 }
 
 int
-main()
+main(void)
 {
   pthread_t wrt1;
   pthread_t wrt2;

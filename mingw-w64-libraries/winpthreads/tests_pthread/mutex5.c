@@ -46,7 +46,7 @@ int _optimiseFoil;
 #define FOIL(x) (_optimiseFoil = x)
 
 int
-main()
+main(void)
 {
   int mxType = -1;
 

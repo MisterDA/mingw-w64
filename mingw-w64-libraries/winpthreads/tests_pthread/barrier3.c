@@ -55,7 +55,7 @@ void * func(void * arg)
 }
  
 int
-main()
+main(void)
 {
   pthread_t t;
   pthread_barrierattr_t ba;

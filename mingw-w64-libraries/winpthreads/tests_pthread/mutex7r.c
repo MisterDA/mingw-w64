@@ -70,7 +70,7 @@ void * locker(void * arg)
 }
  
 int
-main()
+main(void)
 {
   pthread_t t;
   intptr_t result = 0;

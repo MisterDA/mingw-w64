@@ -4,7 +4,7 @@
 #include "test.h"
 
 int
-main()
+main(void)
 {
   printf("Sizes of winpthreads structs\n");
   printf("-------------------------------\n");

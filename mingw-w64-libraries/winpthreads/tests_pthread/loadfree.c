@@ -57,7 +57,7 @@
 
 #include "test.h"
 
-int main() {
+int main(void) {
   HINSTANCE hinst;
 
   //assert((hinst = LoadLibrary("pthread")) != (HINSTANCE) 0);

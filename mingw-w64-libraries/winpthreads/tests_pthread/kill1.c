@@ -75,7 +75,7 @@
 
 
 int
-main()
+main(void)
 {
   assert(pthread_kill(pthread_self(), 1) == EINVAL);
 

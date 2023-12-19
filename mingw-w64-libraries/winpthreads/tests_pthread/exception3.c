@@ -135,7 +135,7 @@ exceptionedThread(void * arg)
 }
 
 int
-main()
+main(void)
 {
   int i;
   pthread_t mt;
@@ -171,7 +171,7 @@ main()
 #include <stdio.h>
 
 int
-main()
+main(void)
 {
   fprintf(stderr, "Test N/A for this compiler environment.\n");
   return 0;

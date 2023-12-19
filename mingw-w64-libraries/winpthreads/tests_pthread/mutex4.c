@@ -60,7 +60,7 @@ void * unlocker(void * arg)
 }
  
 int
-main()
+main(void)
 {
   pthread_t t;
   pthread_mutexattr_t ma;

@@ -47,7 +47,7 @@ getValidPriorities(void * arg)
 
 
 int
-main()
+main(void)
 {
   pthread_t t;
   pthread_t mainThread = pthread_self();

@@ -85,7 +85,7 @@ thr(void * arg)
 
 
 int
-main()
+main(void)
 {
   pthread_t t;
   sem_t s;

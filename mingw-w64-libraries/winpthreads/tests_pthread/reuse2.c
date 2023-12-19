@@ -17,7 +17,7 @@ void * func(void * arg)
 }
  
 int
-main()
+main(void)
 {
   pthread_t t[NUMTHREADS];
   pthread_attr_t attr;

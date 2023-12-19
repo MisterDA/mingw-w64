@@ -43,7 +43,7 @@
 pthread_barrier_t barrier = NULL;
 
 int
-main()
+main(void)
 {
   assert(pthread_barrier_init(&barrier, NULL, 1) == 0);
 

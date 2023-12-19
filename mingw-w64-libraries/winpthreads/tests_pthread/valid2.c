@@ -74,7 +74,7 @@
 #include "test.h"
  
 int
-main()
+main(void)
 {
   pthread_t NullThread = _PTHREAD_NULL_THREAD;
 

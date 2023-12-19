@@ -25,7 +25,7 @@ anotherEnding ()
 }
 
 int
-main()
+main(void)
 {
   pthread_t t;
   HANDLE hThread;

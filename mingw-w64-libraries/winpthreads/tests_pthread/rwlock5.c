@@ -60,7 +60,7 @@ void * func(void * arg)
 }
  
 int
-main()
+main(void)
 {
   pthread_t t;
 

@@ -43,7 +43,7 @@
 pthread_spinlock_t lock;
 
 int
-main()
+main(void)
 {
   assert(pthread_spin_init(&lock, PTHREAD_PROCESS_PRIVATE) == 0);
 

@@ -50,7 +50,7 @@ static pthread_mutex_t mutex;
 static pthread_mutexattr_t mxAttr;
 
 int
-main()
+main(void)
 {
   assert(pthread_mutexattr_init(&mxAttr) == 0);
 

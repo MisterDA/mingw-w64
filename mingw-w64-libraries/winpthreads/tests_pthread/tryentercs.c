@@ -55,7 +55,7 @@ static HINSTANCE _h_kernel32;
 
 
 int
-main()
+main(void)
 {
   CRITICAL_SECTION cs;
 
