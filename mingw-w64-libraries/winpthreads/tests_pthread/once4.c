@@ -111,7 +111,7 @@ mythread(void * arg)
    * eventually cancels only when it becomes the new initter.
    */
   pthread_t self = pthread_self();
-  bag->w32Thread = pthread_getw32threadhandle_np(self);
+  bag->w32Thread = _pthread_gethandle(self);
   /*
    * Set priority between -2 and 2 inclusive.
    */

@@ -92,7 +92,7 @@ main(void)
   const DWORD NANOSEC_PER_MILLISEC = 1000000;
 
   assert((t[0] = pthread_self()) != 0);
-  assert(pthread_gethandle (t[0]) != NULL);
+  assert(_pthread_gethandle (t[0]) != NULL);
 
   assert(cvthing.notbusy == PTHREAD_COND_INITIALIZER);
 
@@ -106,7 +106,7 @@ main(void)
   abstime.tv_sec += 10;
 
   assert((t[0] = pthread_self()) != 0);
-  assert(pthread_gethandle (t[0]) != NULL);
+  assert(_pthread_gethandle (t[0]) != NULL);
 
   awoken = 0;
 

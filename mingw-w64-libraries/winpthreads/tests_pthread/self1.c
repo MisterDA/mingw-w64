@@ -5,7 +5,7 @@
 int
 main(int argc, char * argv[])
 {
-  assert(pthread_gethandle (pthread_self()) != NULL);
+  assert(_pthread_gethandle (pthread_self()) != NULL);
 
   return 0;
 }

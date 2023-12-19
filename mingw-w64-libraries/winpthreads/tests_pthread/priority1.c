@@ -99,7 +99,7 @@ getValidPriorities(void * arg)
 {
   int prioSet;
   pthread_t threadID = pthread_self();
-  HANDLE threadH = pthread_getw32threadhandle_np(threadID);
+  HANDLE threadH = _pthread_gethandle(threadID);
 
   printf("Using GetThreadPriority\n");
   printf("%10s %10s\n", "Set value", "Get value");
@@ -144,7 +144,7 @@ main(void)
   assert(pthread_attr_setinheritsched(&attr, PTHREAD_EXPLICIT_SCHED) == 0);
 
   /* Set the thread's priority to a known initial value. */
-  SetThreadPriority(pthread_getw32threadhandle_np(pthread_self()),
+  SetThreadPriority(_pthread_gethandle(pthread_self()),
                     PTW32TEST_THREAD_INIT_PRIO);
 
   printf("Using pthread_getschedparam\n");
@@ -159,7 +159,7 @@ main(void)
       assert(pthread_attr_setschedparam(&attr, &param) == 0);
       assert(pthread_create(&t, &attr, func, (void *) &attr) == 0);
 
-      assert((prio = GetThreadPriority(pthread_getw32threadhandle_np(t)))
+      assert((prio = GetThreadPriority(_pthread_gethandle(t)))
              == validPriorities[param.sched_priority+(PTW32TEST_MAXPRIORITIES/2)]);
 
       assert(pthread_join(t, &result) == 0);
