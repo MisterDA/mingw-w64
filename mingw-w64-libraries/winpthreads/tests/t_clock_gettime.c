@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <pthread.h>
 
-static void test_clock_gettime()
+static void test_clock_gettime(void)
 {
     int rc;
     struct timespec tp, request = { 1, 0 }, remain;

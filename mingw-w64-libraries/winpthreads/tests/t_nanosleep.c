@@ -42,7 +42,7 @@ static void WINAPI usr_apc(ULONG_PTR dwParam)
     printf("running apc %ld\n", *index);
 }
 
-static void test_apc()
+static void test_apc(void)
 {
     long i, rc, data[5];
     HANDLE thread;
