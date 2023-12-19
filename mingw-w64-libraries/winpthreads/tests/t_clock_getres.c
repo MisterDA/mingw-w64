@@ -1,17 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
 #include <pthread.h>
 
 #define POW10_9                 1000000000
-
-#define assert(_Expression) (void)( (!!(_Expression)) || (_my_assert(#_Expression, __FILE__, __LINE__), 0) )
-
-static __inline void _my_assert(char *message, char *file, unsigned int line)
-{
-    fprintf(stderr, "Assertion failed: %s , file %s, line %u\n", message, file, line);
-    exit(1);
-}
 
 double sub_and_div(const struct timespec *t1, const struct timespec *t2, const struct timespec *r)
 {

@@ -2,15 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
 #include <pthread.h>
-
-#define assert(_Expression) (void)( (!!(_Expression)) || (_my_assert(#_Expression, __FILE__, __LINE__), 0) )
-
-static __inline void _my_assert(char *message, char *file, unsigned int line)
-{
-    fprintf(stderr, "Assertion failed: %s , file %s, line %u\n", message, file, line);
-    exit(1);
-}
 
 void test_clock_gettime()
 {
