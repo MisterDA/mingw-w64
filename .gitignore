@@ -1,6 +1,5 @@
 # Temporary files
 *~
-.*
 
 # Compiled files
 *.o
@@ -24,6 +23,8 @@ config.status
 config.h
 confdefs.h
 stamp-h1
+.deps/
+.dirstamp
 
 # Autotools test results
 *.trs
