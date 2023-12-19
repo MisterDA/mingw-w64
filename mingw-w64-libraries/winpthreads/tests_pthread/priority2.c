@@ -126,7 +126,7 @@ getValidPriorities(void * arg)
 
 
 int
-main()
+main(void)
 {
   pthread_t t;
   void * result = NULL;

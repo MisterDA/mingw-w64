@@ -76,7 +76,7 @@
 #define MAX_COUNT 100
 
 int
-main()
+main(void)
 {
   sem_t s;
 	int value = 0;

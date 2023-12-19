@@ -47,7 +47,7 @@
 static pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
 int
-main()
+main(void)
 {
   struct timespec abstime = { 0, 0 };
   struct _timeb currSysTime;

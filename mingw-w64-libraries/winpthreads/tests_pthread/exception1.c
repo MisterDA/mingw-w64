@@ -188,7 +188,7 @@ canceledThread(void * arg)
 }
 
 int
-main()
+main(void)
 {
   int failed = 0;
   int i;
@@ -254,7 +254,7 @@ main()
 #include <stdio.h>
 
 int
-main()
+main(void)
 {
   fprintf(stderr, "Test N/A for this compiler environment.\n");
   return 0;

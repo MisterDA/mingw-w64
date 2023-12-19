@@ -56,7 +56,7 @@ myfunc(void *arg)
   return 0;
 }
 int
-main()
+main(void)
 {
   int i;
   int maxThreads = sizeof(threads) / sizeof(pthread_t);

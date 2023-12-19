@@ -149,7 +149,7 @@ main(int argc, char argv[])
 #include <stdio.h>
 
 int
-main()
+main(void)
 {
   fprintf(stderr, "Test N/A for this compiler environment.\n");
   return 0;

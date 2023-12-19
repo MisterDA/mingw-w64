@@ -82,7 +82,7 @@
 pthread_cond_t cnd;
 pthread_mutex_t mtx;
 
-int main()
+int main(void)
 {
    int rc;
 

@@ -94,7 +94,7 @@ mythread(void * arg)
 }
 
 int
-main()
+main(void)
 {
   pthread_t t[NUM_THREADS][NUM_ONCE];
   int i, j;

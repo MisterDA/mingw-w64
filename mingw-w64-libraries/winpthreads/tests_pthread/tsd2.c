@@ -140,7 +140,7 @@ mythread(void * arg)
 }
 
 int
-main()
+main(void)
 {
   int i;
   int fail = 0;

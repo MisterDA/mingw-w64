@@ -64,7 +64,7 @@ void * locker(void * arg)
 }
 
 int
-main()
+main(void)
 {
   pthread_t t;
 

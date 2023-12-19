@@ -83,7 +83,7 @@ pthread_mutex_t mutex;
 
 
 int
-main()
+main(void)
 {
   struct timespec abstime = { 0, 0 };
   struct _timeb currSysTime;

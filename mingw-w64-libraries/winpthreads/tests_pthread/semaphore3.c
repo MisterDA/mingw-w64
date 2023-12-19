@@ -86,7 +86,7 @@ thr (void * arg)
 }
 
 int
-main()
+main(void)
 {
 	int value = 0;
 	int i;

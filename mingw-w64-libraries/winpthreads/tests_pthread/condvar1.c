@@ -81,7 +81,7 @@
 static pthread_cond_t cv;
 
 int
-main()
+main(void)
 {
   assert(!cv);
 

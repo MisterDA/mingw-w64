@@ -161,7 +161,7 @@ mythread(void * arg)
 }
 
 int
-main()
+main(void)
 {
   int failed = 0;
   int i;
@@ -243,7 +243,7 @@ main()
 #else /* defined(_MSC_VER) || defined(__cplusplus) */
 
 int
-main()
+main(void)
 {
   return 0;
 }

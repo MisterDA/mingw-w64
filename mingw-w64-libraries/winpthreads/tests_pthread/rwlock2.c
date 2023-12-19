@@ -46,7 +46,7 @@
 static pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
 int
-main()
+main(void)
 {
   assert(rwlock == PTHREAD_RWLOCK_INITIALIZER);
 

@@ -29,7 +29,7 @@ mythread(void * arg)
 }
 
 int
-main()
+main(void)
 {
   pthread_t t[NUMTHREADS];
   struct timespec abstime = { 0, 0 };

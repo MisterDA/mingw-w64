@@ -61,7 +61,7 @@ void * func(void * arg)
 }
 
 int
-main()
+main(void)
 {
   intptr_t result = 0;
   pthread_t t;

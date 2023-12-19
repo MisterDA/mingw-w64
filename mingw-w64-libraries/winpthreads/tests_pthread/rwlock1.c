@@ -45,7 +45,7 @@
 static pthread_rwlock_t rwlock;
 
 int
-main()
+main(void)
 {
   assert(!rwlock);
 

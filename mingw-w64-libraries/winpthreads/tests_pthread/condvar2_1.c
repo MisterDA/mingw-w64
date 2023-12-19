@@ -26,7 +26,7 @@ mythread(void * arg)
 
 
 int
-main()
+main(void)
 {
   int i;
   pthread_t t[NUMTHREADS + 1];

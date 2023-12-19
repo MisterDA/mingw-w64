@@ -70,7 +70,7 @@ func(void * arg)
 }
 
 int
-main()
+main(void)
 {
   int i, j, k;
   pthread_t t[NUMTHREADS + 1];

@@ -86,7 +86,7 @@ enum {
 static pthread_cond_t cv[NUM_CV];
 
 int
-main()
+main(void)
 {
   int i, j, k;
   intptr_t result = 0;

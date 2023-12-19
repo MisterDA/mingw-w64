@@ -76,7 +76,7 @@ func(void * crossings)
 }
 
 int
-main()
+main(void)
 {
   int i, j;
   void *pr;

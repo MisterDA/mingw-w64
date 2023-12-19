@@ -13,7 +13,7 @@ void * func(void * arg)
 }
 
 int
-main()
+main(void)
 {
   pthread_t t, last_t;
   void *tp, *last_tp;

@@ -123,7 +123,7 @@ mythread(void * arg)
 }
 
 int
-main()
+main(void)
 {
   int failed = 0;
   int i;

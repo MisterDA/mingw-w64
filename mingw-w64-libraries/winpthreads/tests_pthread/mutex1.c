@@ -48,7 +48,7 @@
 static pthread_mutex_t mutex;
 
 int
-main()
+main(void)
 {
   assert(!mutex);
 
