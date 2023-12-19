@@ -691,20 +691,20 @@ static void *condTimed_threadfunc(void *parm)
         pthread_exit(NULL);
       }
       checkResults("pthread_cond_timedwait()\n", rc);
-    } while (!workLeave && !workToDo); 
+    } while (!workLeave && !workToDo);
     if (workToDo) {
         printf("Thread %d consumes work here\n", tid);
         Sleep(2000);
         workToDo = 0;
     }
-  } 
+  }
   printf("Thread %d leaves here\n", tid);
   rc = pthread_mutex_unlock(&mutex);
   checkResults("pthread_mutex_unlock() B\n", rc);
   return NULL;
 }
 
-static int condTimed_main()
+static int condTimed_main(void)
 {
   int                   rc=0;
   int                   i;
@@ -839,20 +839,20 @@ static void *condTimed_threadfunc(void *parm)
         pthread_exit(NULL);
       }
       checkResults("pthread_cond_timedwait()\n", rc);
-    } while (!workLeave && !workToDo); 
+    } while (!workLeave && !workToDo);
     if (workToDo) {
         printf("Thread %d consumes work here\n", tid);
         Sleep(2000);
         workToDo = 0;
     }
-  } 
+  }
   printf("Thread %d leaves here\n", tid);
   rc = pthread_mutex_unlock(&mutex);
   checkResults("pthread_mutex_unlock() B\n", rc);
   return NULL;
 }
 
-static int condTimed_main()
+static int condTimed_main(void)
 {
   int                   rc=0;
   int                   i;
@@ -941,13 +941,13 @@ static int condTimed_main()
   return 0;
 }
 
-static int cond_main()
+static int cond_main(void)
 {
   strcpy(testType, "notTimed");
   return condTimed_main();
 }
 
-static int condStatic_main()
+static int condStatic_main(void)
 {
   strcpy(testType, "static");
   return condTimed_main();
