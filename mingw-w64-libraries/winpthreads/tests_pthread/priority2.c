@@ -104,7 +104,7 @@ getValidPriorities(void * arg)
 {
   int prioSet;
   pthread_t thread = pthread_self();
-  HANDLE threadH = _pthread_gethandle(thread);
+  HANDLE threadH = pthread_getw32threadhandle_np(thread);
   struct sched_param param;
 
   for (prioSet = minPrio;
@@ -146,7 +146,7 @@ main(void)
    * If the new priority is invalid then the threads priority
    * is unchanged from the previous value.
    */
-  SetThreadPriority(_pthread_gethandle(pthread_self()),
+  SetThreadPriority(pthread_getw32threadhandle_np(pthread_self()),
                     PTW32TEST_THREAD_INIT_PRIO);
 
   for (param.sched_priority = minPrio;
@@ -159,7 +159,7 @@ main(void)
       assert(result2 == 0 || result2 == PTHREAD_BARRIER_SERIAL_THREAD);
       result2 = pthread_barrier_wait(&endBarrier);
       assert(result2 == 0 || result2 == PTHREAD_BARRIER_SERIAL_THREAD);
-      assert(GetThreadPriority(_pthread_gethandle(t)) ==
+      assert(GetThreadPriority(pthread_getw32threadhandle_np(t)) ==
 	  validPriorities[param.sched_priority+(PTW32TEST_MAXPRIORITIES/2)]);
       pthread_join(t, &result);
       assert(param.sched_priority == (int) (size_t) result);

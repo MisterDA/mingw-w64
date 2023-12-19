@@ -25,7 +25,7 @@ getValidPriorities(void * arg)
 {
   int prioSet;
   pthread_t thread = pthread_self();
-  HANDLE threadH = _pthread_gethandle(thread);
+  HANDLE threadH = pthread_getw32threadhandle_np(thread);
   struct sched_param param;
 
   for (prioSet = minPrio;
@@ -59,7 +59,7 @@ main(void)
   int policy;
   int inheritsched = -1;
   pthread_t threadID = pthread_self();
-  HANDLE threadH = _pthread_gethandle(threadID);
+  HANDLE threadH = pthread_getw32threadhandle_np(threadID);
 
   assert((maxPrio = sched_get_priority_max(SCHED_OTHER)) != -1);
   assert((minPrio = sched_get_priority_min(SCHED_OTHER)) != -1);

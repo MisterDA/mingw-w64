@@ -37,7 +37,7 @@ main(void)
   const DWORD NANOSEC_PER_MILLISEC = 1000000;
 
   assert((t[0] = pthread_self()) != 0);
-  assert(_pthread_gethandle (t[0]) != NULL);
+  assert(pthread_gethandle (t[0]) != NULL);
 
   assert(pthread_cond_init(&cv, NULL) == 0);
 

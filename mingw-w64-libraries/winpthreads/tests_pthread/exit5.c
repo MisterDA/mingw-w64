@@ -106,7 +106,7 @@ Win32thread(void * arg)
   bag->started = 1;
 
   assert((bag->self = pthread_self()) != 0);
-  assert(_pthread_gethandle (bag->self) != NULL);
+  assert(pthread_gethandle (bag->self) != NULL);
   assert(pthread_kill(bag->self, 0) == 0);
 
   /*

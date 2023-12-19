@@ -32,7 +32,7 @@ main(void)
 
   assert(pthread_create(&t, NULL, func, NULL) == 0);
 
-  hThread =_pthread_gethandle (t);
+  hThread = pthread_gethandle (t);
 
   Sleep(500);
 

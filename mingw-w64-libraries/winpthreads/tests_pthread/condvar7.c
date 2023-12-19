@@ -94,7 +94,7 @@ main(void)
   cvthing.shared = 0;
 
   assert((t[0] = pthread_self()) != 0);
-  assert(_pthread_gethandle (t[0]) != NULL);
+  assert(pthread_gethandle (t[0]) != NULL);
 
   assert(cvthing.notbusy == PTHREAD_COND_INITIALIZER);
 
@@ -110,7 +110,7 @@ main(void)
   abstime.tv_sec += 10;
 
   assert((t[0] = pthread_self()) != 0);
-  assert(_pthread_gethandle (t[0]) != NULL);
+  assert(pthread_gethandle (t[0]) != NULL);
 
   awoken = 0;
 
