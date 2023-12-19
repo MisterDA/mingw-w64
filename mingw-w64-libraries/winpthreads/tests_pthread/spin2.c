@@ -40,7 +40,7 @@
 
 #include "test.h"
 
-pthread_spinlock_t lock = NULL;
+static pthread_spinlock_t lock;
 
 static int washere = 0;
 

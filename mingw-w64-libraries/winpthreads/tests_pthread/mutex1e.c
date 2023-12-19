@@ -46,8 +46,8 @@
 
 #include "test.h"
 
-pthread_mutex_t mutex = NULL;
-pthread_mutexattr_t mxAttr;
+static pthread_mutex_t mutex;
+static pthread_mutexattr_t mxAttr;
 
 int
 main()
@@ -56,11 +56,11 @@ main()
 
   assert(pthread_mutexattr_settype(&mxAttr, PTHREAD_MUTEX_ERRORCHECK) == 0);
 
-  assert(mutex == NULL);
+  assert(!mutex);
 
   assert(pthread_mutex_init(&mutex, &mxAttr) == 0);
 
-  assert(mutex != NULL);
+  assert(mutex);
 
   assert(pthread_mutex_lock(&mutex) == 0);
 
@@ -68,7 +68,7 @@ main()
 
   assert(pthread_mutex_destroy(&mutex) == 0);
 
-  assert(mutex == NULL);
+  assert(!mutex);
 
   return 0;
 }

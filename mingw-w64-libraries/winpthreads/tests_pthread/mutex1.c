@@ -45,16 +45,16 @@
 
 #include "test.h"
 
-pthread_mutex_t mutex = NULL;
+static pthread_mutex_t mutex;
 
 int
 main()
 {
-  assert(mutex == NULL);
+  assert(!mutex);
 
   assert(pthread_mutex_init(&mutex, NULL) == 0);
 
-  assert(mutex != NULL);
+  assert(mutex);
 
   assert(pthread_mutex_lock(&mutex) == 0);
 
@@ -62,7 +62,7 @@ main()
 
   assert(pthread_mutex_destroy(&mutex) == 0);
 
-  assert(mutex == NULL);
+  assert(!mutex);
 
   return 0;
 }
