@@ -101,14 +101,7 @@ const char * error_string[] = {
   "EILSEQ"
 };
 
-/*
- * The Mingw32 assert macro calls the CRTDLL _assert function
- * which pops up a dialog. We want to run in batch mode so
- * we define our own assert macro.
- */
-#ifdef assert
-# undef assert
-#endif
+#include <assert.h>
 
 #ifndef ASSERT_TRACE
 # define ASSERT_TRACE 0
@@ -116,15 +109,6 @@ const char * error_string[] = {
 # undef ASSERT_TRACE
 # define ASSERT_TRACE 0
 #endif
-
-# define assert(e) \
-   ((e) ? ((ASSERT_TRACE) ? fprintf(stderr, \
-                                    "Assertion succeeded: (%s), file %s, line %d\n", \
-			            #e, __FILE__, (int) __LINE__), \
-	                            fflush(stderr) : \
-                             0) : \
-          (fprintf(stderr, "Assertion failed: (%s), file %s, line %d\n", \
-                   #e, __FILE__, (int) __LINE__), exit(1), 0))
 
 int assertE;
 # define assert_e(e, o, r) \
