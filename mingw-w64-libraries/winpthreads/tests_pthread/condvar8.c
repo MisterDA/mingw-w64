@@ -37,6 +37,12 @@ static struct timespec abstime = { 0, 0 };
 
 static int awoken;
 
+static void
+_pthread_mutex_unlock_cleanup(void *arg)
+{
+  assert(pthread_mutex_unlock((pthread_mutex_t*)arg) == 0);
+}
+
 static void *
 mythread(void * arg)
 {
@@ -55,7 +61,7 @@ mythread(void * arg)
 #ifdef _MSC_VER
 #pragma inline_depth(0)
 #endif
-  pthread_cleanup_push(pthread_mutex_unlock, (void *) &cvthing.lock);
+  pthread_cleanup_push(_pthread_mutex_unlock_cleanup, &cvthing.lock);
 
   while (! (cvthing.shared > 0))
     assert(pthread_cond_timedwait(&cvthing.notbusy, &cvthing.lock, &abstime) == 0);

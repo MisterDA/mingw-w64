@@ -24,6 +24,12 @@ static bag_t threadbag[NUMTHREADS + 1];
 pthread_cond_t CV = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t CVLock = PTHREAD_MUTEX_INITIALIZER;
 
+static void
+_pthread_mutex_unlock_cleanup(void *arg)
+{
+  assert(pthread_mutex_unlock((pthread_mutex_t*)arg) == 0);
+}
+
 unsigned int __stdcall
 Win32thread(void * arg)
 {
@@ -39,7 +45,7 @@ Win32thread(void * arg)
   assert(pthread_kill(bag->self, 0) == 0);
 
   assert(pthread_mutex_lock(&CVLock) == 0);
-  pthread_cleanup_push(pthread_mutex_unlock, &CVLock);
+  pthread_cleanup_push(_pthread_mutex_unlock_cleanup, &CVLock);
   pthread_cond_wait(&CV, &CVLock);
   pthread_cleanup_pop(1);
 

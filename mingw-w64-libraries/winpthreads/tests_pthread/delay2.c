@@ -41,6 +41,12 @@
 
 pthread_mutex_t mx = PTHREAD_MUTEX_INITIALIZER;
 
+static void
+_pthread_mutex_unlock_cleanup(void *arg)
+{
+  assert(pthread_mutex_unlock((pthread_mutex_t*)arg) == 0);
+}
+
 void *
 func(void * arg)
 {
@@ -51,7 +57,7 @@ func(void * arg)
 #ifdef _MSC_VER
 #pragma inline_depth(0)
 #endif
-  pthread_cleanup_push(pthread_mutex_unlock, &mx);
+  pthread_cleanup_push(_pthread_mutex_unlock_cleanup, &mx);
   assert(pthread_delay_np(&interval) == 0);
   pthread_cleanup_pop(1);
 #ifdef _MSC_VER

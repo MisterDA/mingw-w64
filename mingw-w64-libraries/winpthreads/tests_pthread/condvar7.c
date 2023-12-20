@@ -37,11 +37,9 @@ static struct timespec abstime = { 0, 0 };
 
 static int awoken;
 
-static void _pthread_mutex_unlock_cleanup (pthread_mutex_t arg)
+static void _pthread_mutex_unlock_cleanup(void *arg)
 {
-    pthread_mutex_t *m = (pthread_mutex_t *)arg;
-
-    pthread_mutex_unlock (m);
+  assert(pthread_mutex_unlock((pthread_mutex_t*)arg) == 0);
 }
 
 void *
