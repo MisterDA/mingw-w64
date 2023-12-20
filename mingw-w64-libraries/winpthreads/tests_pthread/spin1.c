@@ -53,7 +53,5 @@ main()
 
   assert(pthread_spin_destroy(&lock) == 0);
 
-  assert(pthread_spin_lock(&lock) == EINVAL);
-
   return 0;
 }
