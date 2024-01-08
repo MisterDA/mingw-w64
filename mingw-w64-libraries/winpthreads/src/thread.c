@@ -133,6 +133,33 @@ SetThreadName (DWORD dwThreadID, LPCSTR szThreadName)
 #endif
 }
 
+static pthread_once_t have_high_res_timer_once = PTHREAD_ONCE_INIT;
+static BOOL have_high_res_timer;
+
+static HANDLE
+create_high_res_timer(void)
+{
+#ifndef CREATE_WAITABLE_TIMER_HIGH_RESOLUTION
+#define CREATE_WAITABLE_TIMER_HIGH_RESOLUTION 0x00000002
+#endif
+
+  return _pthread_create_waitable_timer_ex_w(
+      NULL, NULL,
+      CREATE_WAITABLE_TIMER_HIGH_RESOLUTION,
+      SYNCHRONIZE | TIMER_QUERY_STATE | TIMER_MODIFY_STATE);
+}
+
+static void
+init_high_res_timer(void)
+{
+  HANDLE h = create_high_res_timer();
+  if (h != NULL)
+    {
+      have_high_res_timer = TRUE;
+      CloseHandle(h);
+    }
+}
+
 /* Search the list idList for an element with identifier ID.  If
    found, its associated _pthread_v pointer is returned, otherwise
    NULL.
@@ -683,35 +710,48 @@ pthread_timechange_handler_np(void *dummy)
 /* Compatibility routine for pthread-win32.  It waits for ellapse of
    interval and additionally checks for possible thread-cancelation.  */
 int
-pthread_delay_np (const struct timespec *interval)
+pthread_delay_np (const struct timespec *request)
 {
-  DWORD to = (!interval ? 0 : dwMilliSecs (_pthread_time_in_ms_from_timespec (interval)));
+  DWORD timeout = !request ? 0 : dwMilliSecs (_pthread_time_in_ms_from_timespec (request));
   struct _pthread_v *s = __pthread_self_lite ();
+  HANDLE h;
 
-  if (!to)
+  if (timeout == 0)
     {
       pthread_testcancel ();
       Sleep (0);
       pthread_testcancel ();
       return 0;
     }
+
   pthread_testcancel ();
-  if (s->evStart)
-    _pthread_wait_for_single_object (s->evStart, to);
+  if (timeout != INFINITE && s->high_res_timer)
+    {
+      /* 100ns units, relative time (negative) */
+      const long long dt = -(request->tv_sec * 10000000LL + request->tv_nsec / 100LL);
+      h = s->high_res_timer;
+      SetWaitableTimer (h, (const LARGE_INTEGER *)&dt, 0, NULL, NULL, FALSE);
+      timeout = INFINITE;
+    }
   else
-    Sleep (to);
+    {
+      h = s->evStart;
+    }
+
+  if (h)
+    _pthread_wait_for_single_object (h, timeout);
+  else
+    Sleep (timeout);
   pthread_testcancel ();
   return 0;
 }
 
-int pthread_delay_np_ms (DWORD to);
-
 int
-pthread_delay_np_ms (DWORD to)
+pthread_delay_np_ms (DWORD timeout)
 {
   struct _pthread_v *s = __pthread_self_lite ();
 
-  if (!to)
+  if (timeout == 0)
     {
       pthread_testcancel ();
       Sleep (0);
@@ -720,9 +760,9 @@ pthread_delay_np_ms (DWORD to)
     }
   pthread_testcancel ();
   if (s->evStart)
-    _pthread_wait_for_single_object (s->evStart, to);
+    _pthread_wait_for_single_object (s->evStart, timeout);
   else
-    Sleep (to);
+    Sleep (timeout);
   pthread_testcancel ();
   return 0;
 }
@@ -1032,6 +1072,7 @@ __pthread_self_lite (void)
   pthread_spinlock_t new_spin_keys = PTHREAD_SPINLOCK_INITIALIZER;
 
   _pthread_once_raw (&_pthread_tls_once, pthread_tls_init);
+  _pthread_once_raw (&have_high_res_timer_once, init_high_res_timer);
 
   t = (_pthread_v *) TlsGetValue (_pthread_tls);
   if (t)
@@ -1055,6 +1096,13 @@ __pthread_self_lite (void)
   t->sched.sched_priority = GetThreadPriority(t->h);
   t->ended = 0;
   t->thread_noposix = 1;
+
+  if (have_high_res_timer)
+    {
+      t->high_res_timer = create_high_res_timer();
+      if (!t->high_res_timer)
+        abort ();
+    }
 
   /* Save for later */
   if (!TlsSetValue(_pthread_tls, t))
@@ -1542,6 +1590,7 @@ pthread_create_wrapper (void *args)
   pthread_mutex_lock (&mtx_pthr_locked);
   pthread_mutex_lock (&tv->p_clock);
   _pthread_once_raw(&_pthread_tls_once, pthread_tls_init);
+  _pthread_once_raw(&have_high_res_timer_once, init_high_res_timer);
   TlsSetValue(_pthread_tls, tv);
   tv->tid = GetCurrentThreadId();
   pthread_mutex_unlock (&tv->p_clock);

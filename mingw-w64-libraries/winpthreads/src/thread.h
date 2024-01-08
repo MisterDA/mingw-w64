@@ -41,6 +41,7 @@ struct _pthread_v
     int nobreak;
     HANDLE h;
     HANDLE evStart;
+    HANDLE high_res_timer;
     pthread_mutex_t p_clock;
     int cancelled : 2;
     int in_cancel : 2;

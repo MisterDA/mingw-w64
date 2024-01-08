@@ -26,6 +26,7 @@
 
 void (WINAPI *_pthread_get_system_time_best_as_file_time) (LPFILETIME) = NULL;
 static ULONGLONG (WINAPI *_pthread_get_tick_count_64) (VOID);
+HANDLE (WINAPI *_pthread_create_waitable_timer_ex_w) (LPSECURITY_ATTRIBUTES, LPCWSTR, DWORD, DWORD) = NULL;
 
 #if defined(__GNUC__) || defined(__clang__)
 __attribute__((constructor))
@@ -45,6 +46,10 @@ static void winpthreads_init(void)
     if (!_pthread_get_system_time_best_as_file_time)
         /* >15ms precision on Windows 10 */
         _pthread_get_system_time_best_as_file_time = GetSystemTimeAsFileTime;
+
+    _pthread_create_waitable_timer_ex_w =
+        (HANDLE (WINAPI *)(LPSECURITY_ATTRIBUTES, LPCWSTR, DWORD, DWORD))(void*)
+        GetProcAddress(mod, "CreateWaitableTimerExW");
 }
 
 #if defined(_MSC_VER) && !defined(__clang__)
