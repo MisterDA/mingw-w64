@@ -107,6 +107,14 @@ unsigned long long _pthread_rel_time_in_ms(const struct timespec *ts);
 unsigned long _pthread_wait_for_single_object (void *handle, unsigned long timeout);
 unsigned long _pthread_wait_for_multiple_objects (unsigned long count, void **handles, unsigned int all, unsigned long timeout);
 
+#ifndef __has_attribute
+#define __has_attribute(x) 0
+#endif
+
+#ifndef __has_c_attribute
+#define __has_c_attribute(x) 0
+#endif
+
 #if defined(__GNUC__) || defined(__clang__)
 #define likely(cond) __builtin_expect((cond) != 0, 1)
 #define unlikely(cond) __builtin_expect((cond) != 0, 0)

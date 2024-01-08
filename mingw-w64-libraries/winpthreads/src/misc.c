@@ -26,12 +26,35 @@
 
 static ULONGLONG (*GetTickCount64FuncPtr) (VOID);
 
-static void __attribute__((constructor)) ctor (void)
+#if __has_c_attribute(gnu::constructor)
+[[gnu::constructor]]
+#elif __has_attribute(constructor)
+__attribute__((constructor))
+#endif
+static void ctor(void)
 {
   HMODULE mod = GetModuleHandle("kernel32.dll");
   if (mod)
     GetTickCount64FuncPtr = (__typeof__(GetTickCount64FuncPtr)) GetProcAddress(mod, "GetTickCount64");
 }
+
+#if !__has_c_attribute(gnu::constructor) && !__has_attribute(constructor) && \
+  defined(_MSC_VER)
+/* Force a reference to __xc_t to prevent whole program optimization
+ * from discarding the variable. */
+
+/* On x86, symbols are prefixed with an underscore. */
+# if defined(_M_IX86)
+#   pragma comment(linker, "/include:___xc_t")
+# else
+#   pragma comment(linker, "/include:__xc_t")
+# endif
+
+#pragma section(".CRT$XCT", long, read)
+extern const __declspec(allocate(".CRT$XCT")) _PVFV __xc_t;
+const __declspec(allocate(".CRT$XCT")) _PVFV __xc_t = ctor;
+#endif
+
 
 unsigned long long _pthread_time_in_ms(void)
 {
