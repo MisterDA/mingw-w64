@@ -35,7 +35,7 @@ static void ctor(void)
 {
   HMODULE mod = GetModuleHandle("kernel32.dll");
   if (mod)
-    GetTickCount64FuncPtr = (__typeof__(GetTickCount64FuncPtr)) GetProcAddress(mod, "GetTickCount64");
+    GetTickCount64FuncPtr = (ULONGLONG (*)(VOID)) GetProcAddress(mod, "GetTickCount64");
 }
 
 #if !__has_c_attribute(gnu::constructor) && !__has_attribute(constructor) && \
