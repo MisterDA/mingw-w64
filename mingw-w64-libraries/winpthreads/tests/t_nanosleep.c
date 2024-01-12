@@ -69,7 +69,7 @@ static void test_apc(void)
     }
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     int rc;
     struct timespec tp, tp2, request = { 1, 0 }, remain;

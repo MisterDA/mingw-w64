@@ -42,7 +42,7 @@ static void test_clock_nanosleep(void)
     printf("[%10"PRId64".%09d] clock_gettime (CLOCK_REALTIME)\n", (__int64) tp.tv_sec, (int) tp.tv_nsec);
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     test_clock_nanosleep();
 
