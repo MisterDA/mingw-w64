@@ -495,6 +495,9 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
 	      CloseHandle (t->h);
 	      if (t->evStart)
 		CloseHandle (t->evStart);
+	      if (t->high_res_timer)
+		CloseHandle (t->high_res_timer);
+	      t->high_res_timer = NULL;
 	      t->evStart = NULL;
 	      t->h = NULL;
 	    }
@@ -508,6 +511,9 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
 	{
 	  if (t->evStart)
 	    CloseHandle(t->evStart);
+	  if (t->high_res_timer)
+	    CloseHandle (t->high_res_timer);
+	  t->high_res_timer = NULL;
 	  t->evStart = NULL;
 	  t->ended = 1;
 	  _pthread_cleanup_dest (t->x);
@@ -531,6 +537,9 @@ __dyn_tls_pthread (HANDLE hDllHandle, DWORD dwReason, LPVOID lpreserved)
 	{
 	  if (t->evStart)
 	    CloseHandle (t->evStart);
+	  if (t->high_res_timer)
+	    CloseHandle (t->high_res_timer);
+	  t->high_res_timer = NULL;
 	  t->evStart = NULL;
 	  pthread_mutex_destroy (&t->p_clock);
 	  replace_spin_keys (&t->spin_keys, new_spin_keys);
@@ -1177,6 +1186,9 @@ pthread_exit (void *res)
     {
       if (t->evStart)
         CloseHandle (t->evStart);
+      if (t->high_res_timer)
+        CloseHandle (t->high_res_timer);
+      t->high_res_timer = NULL;
       t->evStart = NULL;
       rslt = (unsigned) (size_t) t->ret_arg;
       if (!t->h)
@@ -1729,8 +1741,11 @@ pthread_create (pthread_t *th, const pthread_attr_t *attr, void *(* func)(void *
     {
       if (tv->evStart)
 	CloseHandle (tv->evStart);
+      if (tv->high_res_timer)
+	CloseHandle (tv->high_res_timer);
       pthread_mutex_destroy (&tv->p_clock);
       replace_spin_keys (&tv->spin_keys, new_spin_keys);
+      tv->high_res_timer = NULL;
       tv->evStart = NULL;
       tv->h = 0;
       if (th)
@@ -1787,6 +1802,9 @@ pthread_join (pthread_t t, void **res)
   CloseHandle (tv->h);
   if (tv->evStart)
     CloseHandle (tv->evStart);
+  if (tv->high_res_timer)
+    CloseHandle (tv->high_res_timer);
+  tv->high_res_timer = NULL;
   tv->evStart = NULL;
   /* Obtain return value */
   if (res)
@@ -1836,6 +1854,9 @@ _pthread_tryjoin (pthread_t t, void **res)
   CloseHandle (tv->h);
   if (tv->evStart)
     CloseHandle (tv->evStart);
+  if (tv->high_res_timer)
+    CloseHandle (tv->high_res_timer);
+  tv->high_res_timer = NULL;
   tv->evStart = NULL;
 
   /* Obtain return value */
@@ -1883,6 +1904,9 @@ pthread_detach (pthread_t t)
 	{
 	  if (tv->evStart)
 	    CloseHandle (tv->evStart);
+	  if (tv->high_res_timer)
+	    CloseHandle (tv->high_res_timer);
+	  tv->high_res_timer = NULL;
 	  tv->evStart = NULL;
 	  pthread_mutex_destroy (&tv->p_clock);
 	  replace_spin_keys (&tv->spin_keys, new_spin_keys);
