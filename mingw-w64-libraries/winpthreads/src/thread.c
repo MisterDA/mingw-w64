@@ -1122,24 +1122,20 @@ pthread_exit (void *res)
   /* Make sure we free ourselves if we are detached */
   if ((t = (_pthread_v *)TlsGetValue(_pthread_tls)) != NULL)
     {
+      if (t->evStart)
+        CloseHandle (t->evStart);
+      t->evStart = NULL;
+      rslt = (unsigned) (size_t) t->ret_arg;
       if (!t->h)
 	{
 	  t->valid = DEAD_THREAD;
-	  if (t->evStart)
-	    CloseHandle (t->evStart);
-	  t->evStart = NULL;
-	  rslt = (unsigned) (size_t) t->ret_arg;
 	  push_pthread_mem(t);
 	  t = NULL;
 	  TlsSetValue (_pthread_tls, t);
 	}
       else
 	{
-	  rslt = (unsigned) (size_t) t->ret_arg;
 	  t->ended = 1;
-	  if (t->evStart)
-	    CloseHandle (t->evStart);
-	  t->evStart = NULL;
 	  if ((t->p_state & PTHREAD_CREATE_DETACHED) == PTHREAD_CREATE_DETACHED)
 	    {
 	      t->valid = DEAD_THREAD;
