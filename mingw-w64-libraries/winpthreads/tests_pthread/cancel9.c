@@ -83,7 +83,7 @@ test_udp (void *arg)
   struct sockaddr_in clientAddress;
   SOCKET UDPSocket;
   int addr_len;
-  int nbyte, bytes;
+  int nbyte;
   char buffer[4096];
   WORD wsaVersion = MAKEWORD (2, 2);
   WSADATA wsaData;
@@ -119,9 +119,8 @@ test_udp (void *arg)
 
   nbyte = 512;
 
-  bytes =
-    recvfrom (UDPSocket, (char *) buffer, nbyte, 0,
-	      (struct sockaddr *) &clientAddress, &addr_len);
+  recvfrom (UDPSocket, (char *) buffer, nbyte, 0,
+	    (struct sockaddr *) &clientAddress, &addr_len);
 
   closesocket (UDPSocket);
   WSACleanup ();
@@ -145,14 +144,13 @@ void *
 test_wait (void *arg)
 {
   HANDLE hEvent;
-  DWORD dwEvent;
 
   pthread_setcancelstate (PTHREAD_CANCEL_ENABLE, NULL);
   pthread_setcanceltype (PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 
   hEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 
-  dwEvent = WaitForSingleObject (hEvent, 1000);	/* WAIT_IO_COMPLETION */
+  WaitForSingleObject (hEvent, 1000);	/* WAIT_IO_COMPLETION */
 
   return NULL;
 }
