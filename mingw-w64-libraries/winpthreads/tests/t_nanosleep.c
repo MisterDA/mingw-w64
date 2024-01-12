@@ -20,6 +20,7 @@ static unsigned __stdcall start_address(void *dummy)
 {
     int counter = 0;
     struct timespec request = { 1, 0 }, remain;
+    (void)dummy;
 
     while (counter < 5) {
         int rc = nanosleep(&request, &remain);
@@ -69,7 +70,7 @@ static void test_apc(void)
     }
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     int rc;
     struct timespec tp, tp2, request = { 1, 0 }, remain;

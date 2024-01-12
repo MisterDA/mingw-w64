@@ -45,7 +45,7 @@ static void test_clock_getres(char *name, int id)
     printf("\n");
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     test_clock_getres("          CLOCK_REALTIME", CLOCK_REALTIME);
     test_clock_getres("         CLOCK_MONOTONIC", CLOCK_MONOTONIC);

@@ -9,7 +9,7 @@
 static void test_clock_settime(void)
 {
     int rc;
-    struct timespec tp, request = { 1, 0 }, remain;
+    struct timespec tp;
 
     rc = clock_gettime(CLOCK_REALTIME, &tp);
     assert(rc == 0);
@@ -32,7 +32,7 @@ static void test_clock_settime(void)
     printf("[%10"PRId64".%09d] clock_gettime (CLOCK_REALTIME)\n", (__int64) tp.tv_sec, (int) tp.tv_nsec);
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     test_clock_settime();
 
