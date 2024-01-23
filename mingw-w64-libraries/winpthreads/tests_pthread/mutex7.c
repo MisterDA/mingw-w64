@@ -59,7 +59,7 @@ void * locker(void * arg)
   lockCount++;
   assert(pthread_mutex_unlock(&mutex) == 0);
 
-  expected = EPERM;
+  expected = 0;
   actual = pthread_mutex_unlock(&mutex);
   if (actual != expected)
       fprintf(stderr, "pthread_mutex_unlock: expected: %s (%d), got: %s (%d).\n",

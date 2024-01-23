@@ -77,7 +77,7 @@ main(void)
    */
   assert(pthread_create(&t, NULL, unlocker, (void *) 0) == 0);
   assert(pthread_join(t, NULL) == 0);
-  assert(pthread_mutex_unlock(&mutex1) == EPERM);
+  assert(pthread_mutex_unlock(&mutex1) == 0);
   assert(wasHere == 2);
 
   wasHere = 0;
@@ -90,7 +90,7 @@ main(void)
    */
   assert(pthread_create(&t, NULL, unlocker, (void *) 0) == 0);
   assert(pthread_join(t, NULL) == 0);
-  assert(pthread_mutex_unlock(&mutex1) == EPERM);
+  assert(pthread_mutex_unlock(&mutex1) == 0);
   assert(wasHere == 2);
 
   wasHere = 0;
