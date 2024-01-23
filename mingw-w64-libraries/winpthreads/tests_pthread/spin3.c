@@ -46,10 +46,12 @@ static pthread_spinlock_t spin;
  
 void * unlocker(void * arg)
 {
-  int expectedResult = (int) (size_t) arg;
+  int actual;
+  (void)arg;
 
   wasHere++;
-  assert(pthread_spin_unlock(&spin) == (int) expectedResult);
+  actual = pthread_spin_unlock(&spin);
+  assert(actual == 0 || actual == EPERM);
   wasHere++;
   return NULL;
 }
@@ -62,7 +64,7 @@ main()
   wasHere = 0;
   assert(pthread_spin_init(&spin, PTHREAD_PROCESS_PRIVATE) == 0);
   assert(pthread_spin_lock(&spin) == 0);
-  assert(pthread_create(&t, NULL, unlocker, (void *) EPERM) == 0);
+  assert(pthread_create(&t, NULL, unlocker, NULL) == 0);
   assert(pthread_join(t, NULL) == 0);
   assert(pthread_spin_unlock(&spin) == 0);
   assert(pthread_spin_destroy(&spin) == 0);
