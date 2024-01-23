@@ -268,10 +268,6 @@ typedef intptr_t pthread_cond_t;
 typedef intptr_t pthread_rwlock_t;
 typedef void	*pthread_barrier_t;
 
-#define PTHREAD_MUTEX_NORMAL 0
-#define PTHREAD_MUTEX_ERRORCHECK 1
-#define PTHREAD_MUTEX_RECURSIVE 2
-
 #define GENERIC_INITIALIZER				-1
 #define GENERIC_ERRORCHECK_INITIALIZER			-2
 #define GENERIC_RECURSIVE_INITIALIZER			-3
