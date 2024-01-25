@@ -89,7 +89,10 @@ build_triplet = @build@
 host_triplet = @host@
 check_PROGRAMS = t_clock_getres$(EXEEXT) t_clock_gettime$(EXEEXT) \
 	t_clock_nanosleep$(EXEEXT) t_clock_settime$(EXEEXT) \
-	t_nanosleep$(EXEEXT)
+	$(am__EXEEXT_1)
+
+#FIXME: t_nanosleep uses getntptimeofday, specific to mingw.
+@MSVC_FALSE@am__append_1 = t_nanosleep
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -103,6 +106,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+@MSVC_FALSE@am__EXEEXT_1 = t_nanosleep$(EXEEXT)
 t_clock_getres_SOURCES = t_clock_getres.c
 t_clock_getres_OBJECTS = t_clock_getres.$(OBJEXT)
 t_clock_getres_LDADD = $(LDADD)
@@ -523,7 +527,8 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/include
-AM_LDFLAGS = -L$(top_builddir)/fakelib -L$(top_builddir) -lwinpthread -static
+@MSVC_FALSE@AM_LDFLAGS = -L$(top_builddir)/fakelib -L$(top_builddir) -lwinpthread -static
+@MSVC_TRUE@AM_LDFLAGS = ../libpthread.a
 TESTS = $(check_PROGRAMS)
 all: all-am
 
