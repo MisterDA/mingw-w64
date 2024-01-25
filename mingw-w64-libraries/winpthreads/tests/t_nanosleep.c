@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include <pthread_time.h>
 #include <windows.h>
 
 #define POW10_3                 1000
