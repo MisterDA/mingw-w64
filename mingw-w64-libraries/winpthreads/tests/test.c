@@ -12,7 +12,7 @@
 #define MAX_THREAD 1000
 #define N_THREAD 40
 
-int checkAbort = 0;
+static int checkAbort = 0;
 
 #define checkResults(string, val) {             \
  if (val) {                                     \
@@ -36,7 +36,7 @@ typedef struct {
     int id;
 } parm;
 
-struct timespec *starttimer(struct timespec *ts, DWORD ms)
+static struct timespec *starttimer(struct timespec *ts, DWORD ms)
 {
     struct timeval    tp;
     /* Convert from timeval to timespec */
@@ -49,7 +49,7 @@ struct timespec *starttimer(struct timespec *ts, DWORD ms)
 }
 
 
-void *hello(void *arg)
+static void *hello(void *arg)
 {
     parm *p=(parm *)arg;
     printf("Hello from node %d\n", p->id);
@@ -59,16 +59,16 @@ void *hello(void *arg)
     return (NULL);
 }
 
-pthread_rwlock_t       rwlock;
-char testType[100];
+static pthread_rwlock_t       rwlock;
+static char testType[100];
 
 /*================================================================================*/
 #define SPINLOCK_NTHREADS                50
-pthread_spinlock_t      spinlock;
-int                     SLsharedData=0;
-int                     SLsharedData2=0;
+static pthread_spinlock_t      spinlock;
+static int                     SLsharedData=0;
+static int                     SLsharedData2=0;
 
-void *spinlock_threadfunc(void *parm)
+static void *spinlock_threadfunc(void *parm)
 {
    int   rc, d;
    int tid = pthread_self();
@@ -94,8 +94,8 @@ void *spinlock_threadfunc(void *parm)
    }
    return NULL;
 }
- 
-int spinlock_main(void)
+
+static int spinlock_main(void)
 {
     pthread_t             thread[SPINLOCK_NTHREADS];
     int                   rc=0;
@@ -142,13 +142,13 @@ int spinlock_main(void)
 /*================================================================================*/
 #define MUTEX_NTHREADS              5
 #define MUTEX_LOOPCNT				0
-pthread_mutex_t         mutex;
-int                     sharedData=0;
-int                     sharedData2=0;
-int						mwait=30000;
-int						init =0, destr=0;
+static pthread_mutex_t         mutex;
+static int                     sharedData=0;
+static int                     sharedData2=0;
+static int                     mwait=30000;
+static int                     init =0, destr=0;
 
-void *mutex_threadfunc(void *parm)
+static void *mutex_threadfunc(void *parm)
 {
    int   rc;
    int d;
@@ -189,8 +189,8 @@ rc = pthread_mutex_lock(&mutex);
 
    return NULL;
 }
- 
-void *mutex_threadfunc_raced(void *parm)
+
+static void *mutex_threadfunc_raced(void *parm)
 {
    int   rc, rc1, i,j=0,x=0;
    int d;
@@ -295,7 +295,7 @@ void *mutex_threadfunc_raced(void *parm)
 }
  
 static volatile LONG _tid=0;
-void *mutex_threadfunc_timed(void *parm)
+static void *mutex_threadfunc_timed(void *parm)
 {
    int   rc;
    int d,e;
@@ -346,7 +346,7 @@ void *mutex_threadfunc_timed(void *parm)
 }
  
 /* PTHREAD_NORMAL_MUTEX_INITIALIZER deadlock handling thread 1 */
-void *mutex_threadfuncDL1(void *parm) 
+static void *mutex_threadfuncDL1(void *parm)
 {
    int   rc;
    int d;
@@ -373,7 +373,7 @@ void *mutex_threadfuncDL1(void *parm)
 }
  
 /* PTHREAD_NORMAL_MUTEX_INITIALIZER deadlock handling main thread */
-int mutex_main_DL(void)
+static int mutex_main_DL(void)
 {
    int   rc;
    int d;
@@ -397,8 +397,8 @@ int mutex_main_DL(void)
 
    return 0;
 }
- 
-int mutex_main_timed(void)
+
+static int mutex_main_timed(void)
 {
     pthread_t             thread[MUTEX_NTHREADS];
     int                   rc=0;
@@ -452,7 +452,7 @@ int mutex_main_timed(void)
     return 0;
 }
 
-int mutex_main_raced(void)
+static int mutex_main_raced(void)
 {
     //pthread_t             thread[MUTEX_NTHREADS];
     pthread_t             *thread;
@@ -526,8 +526,8 @@ int mutex_main_raced(void)
     return 0;
 }
 
- 
-int mutex_main_static(void)
+
+static int mutex_main_static(void)
 {
     pthread_t             thread[MUTEX_NTHREADS];
     int                   rc=0;
@@ -563,7 +563,7 @@ int mutex_main_static(void)
     checkResults("pthread_mutex_unlock()\n",rc);
     return 0;
 }
-int mutex_main(void)
+static int mutex_main(void)
 {
     pthread_t             *thread;
     int                   rc=0;
@@ -643,12 +643,12 @@ int mutex_main(void)
 #define COND_NTHREADS                3
 #define COND_WAIT_TIME_SECONDS       10
 
-int                 workToDo = 0;
-int                 workLeave = 0;
-pthread_cond_t      cond;
-pthread_mutex_t     mutex;
+static int                 workToDo = 0;
+static int                 workLeave = 0;
+static pthread_cond_t      cond;
+static pthread_mutex_t     mutex;
 
-void *condTimed_threadfunc(void *parm)
+static void *condTimed_threadfunc(void *parm)
 {
   int               tid;
   int               rc;
@@ -704,7 +704,7 @@ void *condTimed_threadfunc(void *parm)
   return NULL;
 }
 
-int condTimed_main()
+static int condTimed_main()
 {
   int                   rc=0;
   int                   i;
@@ -790,12 +790,12 @@ int condTimed_main()
 #define COND_NTHREADS                3
 #define COND_WAIT_TIME_SECONDS       10
 
-int                 workToDo = 0;
-int                 workLeave = 0;
-pthread_cond_t      cond=PTHREAD_COND_INITIALIZER;
-pthread_mutex_t     mutex=PTHREAD_MUTEX_INITIALIZER;
+static int                 workToDo = 0;
+static int                 workLeave = 0;
+static pthread_cond_t      cond=PTHREAD_COND_INITIALIZER;
+static pthread_mutex_t     mutex=PTHREAD_MUTEX_INITIALIZER;
 
-void *condTimed_threadfunc(void *parm)
+static void *condTimed_threadfunc(void *parm)
 {
   int               tid;
   int               rc;
@@ -852,7 +852,7 @@ void *condTimed_threadfunc(void *parm)
   return NULL;
 }
 
-int condTimed_main()
+static int condTimed_main()
 {
   int                   rc=0;
   int                   i;
@@ -941,20 +941,20 @@ int condTimed_main()
   return 0;
 }
 
-int cond_main()
+static int cond_main()
 {
   strcpy(testType, "notTimed");
   return condTimed_main();
 }
 
-int condStatic_main()
+static int condStatic_main()
 {
   strcpy(testType, "static");
   return condTimed_main();
 }
 #endif
 /*================================================================================*/
-void *rwlockTimed_rdlockThread(void *arg)
+static void *rwlockTimed_rdlockThread(void *arg)
 {
   int             rc;
   int             count=0;
@@ -986,7 +986,7 @@ void *rwlockTimed_rdlockThread(void *arg)
   return NULL;
 }
 
-int rwlockTimed_main(void)
+static int rwlockTimed_main(void)
 {
   int                   rc=0;
   pthread_t             thread;
@@ -1029,7 +1029,7 @@ int rwlockTimed_main(void)
 /*================================================================================*/
 volatile static int rwdata=0;
 
-void *rwlock_rdlockThread(void *arg)
+static void *rwlock_rdlockThread(void *arg)
 {
   int rc,i;
   struct timespec ts;
@@ -1054,7 +1054,7 @@ void *rwlock_rdlockThread(void *arg)
   return NULL;
 }
 
-void *rwlock_wrlockThread(void *arg)
+static void *rwlock_wrlockThread(void *arg)
 {
   int rc;
 
@@ -1073,7 +1073,7 @@ void *rwlock_wrlockThread(void *arg)
   return NULL;
 }
 
-int rwlock_main(void)
+static int rwlock_main(void)
 {
   int                   rc=0;
   pthread_t             thread, thread1;
@@ -1141,7 +1141,7 @@ static int serial[BARRIER_NTHREADS];
 
 
 
-void *barrier_Thread(void *arg)
+static void *barrier_Thread(void *arg)
 {
     void *result = NULL;
     int nr = (int)(uintptr_t)arg;
@@ -1223,7 +1223,7 @@ void *barrier_Thread(void *arg)
     return result;
 }
 
-int barrier_main(void)
+static int barrier_main(void)
 {
     int                   rc=0;
     pthread_t threads[BARRIER_NTHREADS];
@@ -1275,7 +1275,7 @@ int barrier_main(void)
 
 }
 /*================================================================================*/
-void thread(void)
+static void thread(void)
 {
     int i;
     parm *p;

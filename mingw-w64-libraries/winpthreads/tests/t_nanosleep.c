@@ -10,13 +10,13 @@
 
 extern int __cdecl getntptimeofday(struct timespec *tp, struct timezone *tz);
 
-__int64 timespec_diff_as_ms(struct timespec *__old, struct timespec *__new)
+static __int64 timespec_diff_as_ms(struct timespec *__old, struct timespec *__new)
 {
     return (__new->tv_sec - __old->tv_sec) * POW10_3
          + (__new->tv_nsec - __old->tv_nsec) / POW10_6;
 }
 
-unsigned __stdcall start_address(void *dummy)
+static unsigned __stdcall start_address(void *dummy)
 {
     int counter = 0;
     struct timespec request = { 1, 0 }, remain;
@@ -36,13 +36,13 @@ unsigned __stdcall start_address(void *dummy)
     return 0;
 }
 
-void WINAPI usr_apc(ULONG_PTR dwParam)
+static void WINAPI usr_apc(ULONG_PTR dwParam)
 {
     long *index = (long *) dwParam;
     printf("running apc %ld\n", *index);
 }
 
-void test_apc()
+static void test_apc()
 {
     long i, rc, data[5];
     HANDLE thread;

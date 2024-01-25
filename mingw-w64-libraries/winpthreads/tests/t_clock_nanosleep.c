@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <pthread.h>
 
-void test_clock_nanosleep()
+static void test_clock_nanosleep()
 {
     int rc;
     struct timespec tp, request = { 1, 0 }, remain;
