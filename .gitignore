@@ -23,6 +23,7 @@ config.status
 config.h
 confdefs.h
 stamp-h1
+.libs/
 .deps/
 .dirstamp
 
