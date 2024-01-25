@@ -9,7 +9,7 @@
 static double sub_and_div(const struct timespec *t1, const struct timespec *t2, const struct timespec *r)
 {
     __int64 diff = (t2->tv_sec - t1->tv_sec) * POW10_9 + (t2->tv_nsec - t1->tv_nsec);
-    return diff / (double) (r->tv_sec * POW10_9 + r->tv_nsec);
+    return (double) diff / (double) (r->tv_sec * POW10_9 + r->tv_nsec);
 }
 
 static void test_clock_getres(char *name, int id)
