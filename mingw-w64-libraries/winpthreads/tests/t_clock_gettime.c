@@ -4,6 +4,7 @@
 #include <time.h>
 #include <assert.h>
 #include <pthread.h>
+#include <pthread_time.h>
 
 static void test_clock_gettime(void)
 {
