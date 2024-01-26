@@ -49,12 +49,13 @@ static pthread_mutex_t mutex1;
  
 void * unlocker(void * arg)
 {
-  int expectedResult = (int) (size_t) arg;
-  int h;
+  int expected = (int) (size_t) arg, actual;
   wasHere++;
-  h = pthread_mutex_unlock(&mutex1);
-  printf("*** %d==%d\n\n", h, expectedResult); fflush(stdout);
-  assert(h == expectedResult);
+  actual = pthread_mutex_unlock(&mutex1);
+  if (actual != expected)
+    fprintf(stderr, "pthread_mutex_unlock: expected: %s (%d), got: %s (%d).\n",
+            error_string[expected], expected, error_string[actual], actual);
+  assert(actual == expected);
   wasHere++;
   return NULL;
 }

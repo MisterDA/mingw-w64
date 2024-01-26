@@ -56,12 +56,19 @@ static pthread_mutexattr_t mxAttr;
 
 void * locker(void * arg)
 {
+  int expected, actual;
   assert(pthread_mutex_lock(&mutex) == 0);
   lockCount++;
   assert(pthread_mutex_trylock(&mutex) == EBUSY);
   lockCount++;
   assert(pthread_mutex_unlock(&mutex) == 0);
-  assert(pthread_mutex_unlock(&mutex) == EPERM);
+
+  expected = EPERM;
+  actual = pthread_mutex_unlock(&mutex);
+  if (actual != expected)
+      fprintf(stderr, "pthread_mutex_unlock: expected: %s (%d), got: %s (%d).\n",
+              error_string[expected], expected, error_string[actual], actual);
+  assert(actual == expected);
 
   return (void *) 555;
 }

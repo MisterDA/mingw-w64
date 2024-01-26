@@ -58,9 +58,17 @@ static pthread_mutex_t mutex = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
 void * locker(void * arg)
 {
+  int expected, actual;
   assert(pthread_mutex_lock(&mutex) == 0);
   lockCount++;
-  assert(pthread_mutex_lock(&mutex) == 0);
+
+  expected = 0;
+  actual = pthread_mutex_lock(&mutex);
+  if (actual != expected)
+      fprintf(stderr, "pthread_mutex_lock: expected: %s (%d), got: %s (%d).\n",
+              error_string[expected], expected, error_string[actual], actual);
+  assert(actual == expected);
+
   lockCount++;
   assert(pthread_mutex_unlock(&mutex) == 0);
   assert(pthread_mutex_unlock(&mutex) == 0);
