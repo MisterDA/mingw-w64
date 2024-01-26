@@ -66,12 +66,14 @@ int
 main(void)
 {
   pthread_t t;
+  intptr_t result = 0;
 
   assert(pthread_mutex_init(&mutex, NULL) == 0);
 
   assert(pthread_create(&t, NULL, locker, NULL) == 0);
 
-  Sleep(1000);
+  assert(pthread_join(t, (void **) &result) == 0);
+  assert(result == 555);
 
   assert(lockCount == 2);
 
