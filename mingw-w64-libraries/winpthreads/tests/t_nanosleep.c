@@ -5,17 +5,6 @@
 #include <pthread_time.h>
 #include <windows.h>
 
-#define POW10_3                 1000
-#define POW10_6                 1000000
-
-extern int __cdecl getntptimeofday(struct timespec *tp, struct timezone *tz);
-
-static __int64 timespec_diff_as_ms(struct timespec *__old, struct timespec *__new)
-{
-    return (__new->tv_sec - __old->tv_sec) * POW10_3
-         + (__new->tv_nsec - __old->tv_nsec) / POW10_6;
-}
-
 static unsigned __stdcall start_address(void *dummy)
 {
     int counter = 0;
@@ -73,19 +62,25 @@ static void test_apc(void)
 int main(void)
 {
     int rc;
-    struct timespec tp, tp2, request = { 1, 0 }, remain;
+    struct timespec request = { 1, 0 }, remain;
+    LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
+    LARGE_INTEGER Frequency;
 
-    getntptimeofday(&tp, NULL);
+    QueryPerformanceFrequency(&Frequency);
+    QueryPerformanceCounter(&StartingTime);
+
     rc = nanosleep(&request, &remain);
-    getntptimeofday(&tp2, NULL);
+
+    QueryPerformanceCounter(&EndingTime);
+    ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
 
     if (rc != 0) {
         printf("remain: %d.%09d\n", (int) remain.tv_sec, (int) remain.tv_nsec);
     }
 
-    printf("%d.%09d\n", (int) tp.tv_sec, (int) tp.tv_nsec);
-    printf("%d.%09d\n", (int) tp2.tv_sec, (int) tp2.tv_nsec);
-    printf("sleep %d ms\n\n", (int) timespec_diff_as_ms(&tp, &tp2));
+    ElapsedMicroseconds.QuadPart *= 1000000;
+    ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
+    printf("sleep %d ms\n\n", (int) ElapsedMicroseconds.QuadPart);
 
     test_apc();
 
