@@ -34,17 +34,18 @@ static void WINAPI usr_apc(ULONG_PTR dwParam)
 
 static void test_apc(void)
 {
-    long i, rc, data[5];
+    long i, data[5];
     HANDLE thread;
+    DWORD rc;
 
-    thread = (HANDLE) _beginthreadex(NULL, 0, start_address, NULL, 0, NULL);
+    thread = (HANDLE)(uintptr_t) _beginthreadex(NULL, 0, start_address, NULL, 0, NULL);
     if (thread == NULL) {
         exit(1);
     }
 
     for (i = 0; i < 5; i++) {
         data[i] = i;
-        Sleep(250 + rand() % 250);
+        Sleep(250U + (unsigned)rand() % 250U);
         rc = QueueUserAPC(usr_apc, thread, (ULONG_PTR) & data[i]);
         if (rc == 0) {
             printf("QueueUserAPC failed: %ld\n", GetLastError());
@@ -65,6 +66,8 @@ int main(void)
     struct timespec request = { 1, 0 }, remain;
     LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
     LARGE_INTEGER Frequency;
+
+    srand((unsigned)time(NULL));
 
     QueryPerformanceFrequency(&Frequency);
     QueryPerformanceCounter(&StartingTime);
