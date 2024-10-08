@@ -1,0 +1,10 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Shell scripts
+configure text eol=lf
+configure.ac text eol=lf
+Makefile* text eol=lf
+*.sh text eol=lf
+*.m4 text eol=lf
+build-aux/* text eol=lf
