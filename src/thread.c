@@ -725,7 +725,7 @@ pthread_delay_np_ms (DWORD to)
 /* Compatibility routine for pthread-win32.  It returns the
    amount of available CPUs on system.  */
 int
-pthread_num_processors_np(void) 
+pthread_num_processors_np(void)
 {
   int r = 0;
   DWORD_PTR ProcessAffinityMask, SystemAffinityMask;
@@ -742,10 +742,10 @@ pthread_num_processors_np(void)
 /* Compatiblity routine for pthread-win32.  Allows to set amount of used
    CPUs for process.  */
 int
-pthread_set_num_processors_np(int n) 
+pthread_set_num_processors_np(int n)
 {
   DWORD_PTR ProcessAffinityMask, ProcessNewAffinityMask = 0, SystemAffinityMask;
-  int r = 0; 
+  int r = 0;
   /* need at least 1 */
   n = n ? n : 1;
   if (GetProcessAffinityMask (GetCurrentProcess (), &ProcessAffinityMask, &SystemAffinityMask))
@@ -878,7 +878,7 @@ pthread_key_delete (pthread_key_t key)
     return EINVAL;
 
   pthread_rwlock_wrlock (&_pthread_key_lock);
-  
+
   _pthread_key_dest[key] = NULL;
 
   /* Start next search from our location */
@@ -910,7 +910,7 @@ pthread_setspecific (pthread_key_t key, const void *value)
 {
   DWORD lasterr = GetLastError ();
   _pthread_v *t = __pthread_self_lite ();
-  
+
   pthread_spin_lock (&t->spin_keys);
 
   if (key >= t->keymax)
@@ -1522,7 +1522,7 @@ void _fpreset (void);
 
 #if defined(__i386__)
 /* Align ESP on 16-byte boundaries. */
-#  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 2)
+#  if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 2))
 __attribute__((force_align_arg_pointer))
 #  endif
 #endif
